@@ -1,4 +1,4 @@
-defmodule OcppModel.V20.Message do
+defmodule OcppModel.V20.Transport do
   @moduledoc """
     contains structs for the three message types, and helper functions to transform between terms, structs and json
 
@@ -6,15 +6,15 @@ defmodule OcppModel.V20.Message do
 
     | MessageType | MessageTypeId | Struct | Description |
     | --- | --- | --- | --- |
-    | CALL       | 2 | OcppModel.V20.Message.Call | a request message |
-    | CALLRESULT | 3 | OcppModel.V20.Message.CallResult | a response message |
-    | CALLERROR  | 4 | OcppModel.V20.Message.CallError | an error message |
+    | CALL       | 2 | OcppModel.V20.Transport.Call | a request message |
+    | CALLRESULT | 3 | OcppModel.V20.Transport.CallResult | a response message |
+    | CALLERROR  | 4 | OcppModel.V20.Transport.CallError | an error message |
 
     The messageId of the message for CallResult and CallError should correspond with that of the request they respond to
   """
 
   @typedoc false
-  @type t() :: %OcppModel.V20.Message.Call{} | %OcppModel.V20.Message.CallResult{} | %OcppModel.V20.Message.CallError{}
+  @type t() :: %OcppModel.V20.Transport.Call{} | %OcppModel.V20.Transport.CallResult{} | %OcppModel.V20.Transport.CallError{}
   @typedoc false
   @type message() :: list[any()]
 

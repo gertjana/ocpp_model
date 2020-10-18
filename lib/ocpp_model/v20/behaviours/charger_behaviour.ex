@@ -1,10 +1,10 @@
-defmodule OcppModel.V20.Charger do
+defmodule OcppModel.V20.Behaviours.Charger do
   @moduledoc """
     Behaviour of a Charger, allowing the module assuming the behaviour to be able to respond to messages send to it
 
   """
 
-  alias OcppModel.V20, as: M
+  alias OcppModel.V20.Messages, as: M
 
   @callback change_availability(req :: ChangeAvailabilityRequest) :: ChangeAvailabilityResponse | {:error, :change_availability}
   @callback unlock_connector(req :: UnlockConnectorRequest) :: UnlockConnectorResponse | {:error, :unlock_connector}

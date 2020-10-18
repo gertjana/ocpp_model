@@ -1,10 +1,10 @@
-defmodule OcppModel.V20.ChargeSystem do
+defmodule OcppModel.V20.Behaviours.ChargeSystem do
   @moduledoc """
     Behaviour of a ChargeSystem, allowing the module assuming the behaviour to be able to respond to messages send to it
 
 
   """
-  alias OcppModel.V20, as: M
+  alias OcppModel.V20.Messages, as: M
 
   @callback authorize(req :: AuthorizeRequest) :: {:ok, AuthorizeResponse} | {:error, :authorize}
   @callback boot_notification(req :: BootNotificationRequest) :: {:ok, BootNotificationResponse} | {:error, :boot_notification}

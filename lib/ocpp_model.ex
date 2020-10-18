@@ -55,7 +55,6 @@ defmodule OcppModel do
 
 
   """
-  import OcppModel.V20
 
   def to_struct(kind, attrs) do
     struct = struct(kind)

@@ -1,4 +1,8 @@
 defmodule OcppModel.V20.FieldTypes do
+  @moduledoc """
+  Field types or subclasses of the OCPP Model
+
+  """
   defmodule AdditionalInfoType do
     @moduledoc false
     use TypedStruct
@@ -83,6 +87,16 @@ defmodule OcppModel.V20.FieldTypes do
     typedstruct do
       field :reasonCode, String.t(), enforce: true # 0..20
       field :additionalInfo, String.t() # 0..512
+    end
+  end
+
+  defmodule TransactionType do
+    @moduledoc false
+    use TypedStruct
+
+    typedstruct do
+      field :transactionId, String.t(), enforce: true # 0..36
+      # optional fields left out for now
     end
   end
 end

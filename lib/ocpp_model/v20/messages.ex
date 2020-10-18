@@ -1,4 +1,4 @@
-defmodule OcppModel.V20 do
+defmodule OcppModel.V20.Messages do
   import OcppModel.V20.FieldTypes
 
   # @authorize_certificate_status ["Accepted", "SignatureError", "CertificateExpired", "NoCertificateAvailab", "CertChainError", "CertificateRevoked", "ContractCancelled"]
