@@ -10,8 +10,11 @@ defmodule OcppModel.V20.Behaviours.Charger do
   @callback unlock_connector(req :: UnlockConnectorRequest) :: UnlockConnectorResponse | {:error, :unlock_connector}
 
   @spec handle(any(), String.t(), %{}) :: {:ok, %{}} | {:error, :atom}
-  def handle(impl, "ChangeAvailability", payload), do: impl.change_availability(OcppModel.to_struct(M.ChangeAvailabilityRequest, payload))
-  def handle(impl, "UnlockConnector", payload), do: impl.authorize(OcppModel.to_struct(M.UnlockConnectorRequest, payload))
+  @doc """
+    Main entrypoint, based on the action parameter, this function will call one of the callback functions
+  """
+  def handle(impl, action, payload) when action == "ChangeAvailability", do: impl.change_availability(OcppModel.to_struct(M.ChangeAvailabilityRequest, payload))
+  def handle(impl, action, payload) when action == "UnlockConnector", do: impl.authorize(OcppModel.to_struct(M.UnlockConnectorRequest, payload))
   def handle(_impl, _action, _payload), do: {:error, :unknown_action}
 
 end

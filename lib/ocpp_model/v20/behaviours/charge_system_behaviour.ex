@@ -12,10 +12,13 @@ defmodule OcppModel.V20.Behaviours.ChargeSystem do
   @callback transaction_event(req :: TransactionEventRequest) :: {:ok, TransactionEventResponse} | {:error, :transaction_event}
 
   @spec handle(any(), String.t(), %{}) :: {:ok, %{}} | {:error, :atom}
-  def handle(impl, "Authorize", payload), do: impl.authorize(OcppModel.to_struct(M.AuthorizeRequest, payload))
-  def handle(impl, "BootNotification", payload), do: impl.authorize(OcppModel.to_struct(M.BootNotificationRequest, payload))
-  def handle(impl, "HeartBeat", payload), do: impl.authorize(OcppModel.to_struct(M.HeartBeat, payload))
-  def handle(impl, "TransactionEvent", payload), do: impl.authorize(OcppModel.to_struct(M.AuthorizeRequest, payload))
+  @doc """
+    Main entrypoint, based on the action parameter, this function will call one of the callback functions
+  """
+  def handle(impl, action, payload) when action == "Authorize", do: impl.authorize(OcppModel.to_struct(M.AuthorizeRequest, payload))
+  def handle(impl, action, payload) when action == "BootNotification", do: impl.authorize(OcppModel.to_struct(M.BootNotificationRequest, payload))
+  def handle(impl, action, payload) when action == "HeartBeat", do: impl.authorize(OcppModel.to_struct(M.HeartBeat, payload))
+  def handle(impl, action, payload) when action == "TransactionEvent", do: impl.authorize(OcppModel.to_struct(M.AuthorizeRequest, payload))
   def handle(_impl, _action, _payload), do: {:error, :unknown_action}
 
 end
