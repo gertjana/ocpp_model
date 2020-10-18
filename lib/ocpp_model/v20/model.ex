@@ -8,6 +8,7 @@ defmodule OcppModel.V20 do
 
 
   defmodule AuthorizeRequest do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -18,6 +19,7 @@ defmodule OcppModel.V20 do
   end
 
   defmodule AuthorizeResponse do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -27,6 +29,7 @@ defmodule OcppModel.V20 do
   end
 
   defmodule BootNotificationRequest do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -36,6 +39,7 @@ defmodule OcppModel.V20 do
   end
 
   defmodule BootNotificationResponse do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -44,6 +48,7 @@ defmodule OcppModel.V20 do
   end
 
   defmodule ChangeAvailabilityRequest do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -53,6 +58,7 @@ defmodule OcppModel.V20 do
   end
 
   defmodule ChangeAvailabilityResponse do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -62,6 +68,7 @@ defmodule OcppModel.V20 do
 
   end
   defmodule HeartbeatRequest do
+    @moduledoc false
     use TypedStruct
 
       typedstruct do
@@ -70,14 +77,16 @@ defmodule OcppModel.V20 do
   end
 
   defmodule HeartbeatResponse do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
-      field :currentTime, String.t(), enforce: true
+      field :currentTime, String.t(), enforce: true, default: ""
     end
   end
 
   defmodule TransactionEventRequest do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -86,11 +95,12 @@ defmodule OcppModel.V20 do
       field :triggerReason, String.t(), enforce: true # TriggerreasonEnumType
       field :seqNo, integer(), enforce: true
       field :transactionInfo, TransactionType.t(), enforce: true
-      # optional field left out for now
+      # optional fields left out for now
     end
   end
 
   defmodule TransactionEventResponse do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -99,6 +109,7 @@ defmodule OcppModel.V20 do
   end
 
   defmodule UnlockConnectorRequest do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -107,6 +118,7 @@ defmodule OcppModel.V20 do
   end
 
   defmodule UnlockConnectorResponse do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do

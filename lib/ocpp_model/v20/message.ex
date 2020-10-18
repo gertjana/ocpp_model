@@ -1,23 +1,25 @@
 defmodule OcppModel.V20.Message do
   @moduledoc """
-    contains struct for the three message type, and helper functions to transform between terms, structs and json
+    contains structs for the three message types, and helper functions to transform between terms, structs and json
 
     There are 3 different Message type identified by the message_type_id
 
     | MessageType | MessageTypeId | Struct | Description |
     | --- | --- | --- | --- |
-    | CALL       | 2 | `%OcppModel.Message.Call{}` | a request message |
-    | CALLRESULT | 3 | `%OcppModel.Message.CallResult{}` | a response message |
-    | CALLERROR  | 4 | `%OcppModel.Message.CallError{}` | an error message |
+    | CALL       | 2 | OcppModel.V20.Message.Call | a request message |
+    | CALLRESULT | 3 | OcppModel.V20.Message.CallResult | a response message |
+    | CALLERROR  | 4 | OcppModel.V20.Message.CallError | an error message |
 
     The messageId of the message for CallResult and CallError should correspond with that of the request they respond to
   """
-  # import OcppModel.V20
 
+  @typedoc false
   @type t() :: %OcppModel.V20.Message.Call{} | %OcppModel.V20.Message.CallResult{} | %OcppModel.V20.Message.CallError{}
+  @typedoc false
   @type message() :: list[any()]
 
   defmodule Call do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -29,6 +31,7 @@ defmodule OcppModel.V20.Message do
   end
 
   defmodule CallResult do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -39,6 +42,7 @@ defmodule OcppModel.V20.Message do
   end
 
   defmodule CallError do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -62,8 +66,5 @@ defmodule OcppModel.V20.Message do
     do: %CallResult{message_type_id: 3, message_id: message_id, payload: payload}
   def from_message([4, message_id, error_code, error_description, error_details]),
     do: %CallError{message_type_id: 4, message_id: message_id, error_code: error_code, error_description: error_description, error_details: error_details}
-
-
-
 
 end

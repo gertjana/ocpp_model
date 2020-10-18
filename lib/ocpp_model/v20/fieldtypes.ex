@@ -1,5 +1,6 @@
 defmodule OcppModel.V20.FieldTypes do
   defmodule AdditionalInfoType do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -9,6 +10,7 @@ defmodule OcppModel.V20.FieldTypes do
   end
 
   defmodule ChargingStationType do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -21,6 +23,7 @@ defmodule OcppModel.V20.FieldTypes do
   end
 
   defmodule EvseType do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -30,6 +33,7 @@ defmodule OcppModel.V20.FieldTypes do
   end
 
   defmodule IdTokenType do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -40,6 +44,7 @@ defmodule OcppModel.V20.FieldTypes do
   end
 
   defmodule IdTokenInfoType do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -49,6 +54,7 @@ defmodule OcppModel.V20.FieldTypes do
   end
 
   defmodule ModemType do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -58,6 +64,7 @@ defmodule OcppModel.V20.FieldTypes do
   end
 
   defmodule OCSPRequestDataType do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -70,6 +77,7 @@ defmodule OcppModel.V20.FieldTypes do
   end
 
   defmodule StatusInfoType do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
