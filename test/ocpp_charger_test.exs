@@ -29,6 +29,10 @@ defmodule OcppModelChargerTest do
     message = [2, "42", "ChangeAvailability", %{operationalStatus: "Inoperative"}]
     expected = [3, "42", %M.ChangeAvailabilityResponse{status: "Accepted"}]
     assert expected == MyTestCharger.handle(message)
+
+    message = [2, "42", "UnlockConnector", %{evseid: 0}]
+    expected = [3, "42", %M.UnlockConnectorResponse{status: "Unlocked"}]
+    assert expected == MyTestCharger.handle(message)
   end
 
   test "MyTestCharger.handle method should give a CallError response when a incorrect Call message is given" do

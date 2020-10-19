@@ -18,7 +18,7 @@ defmodule OcppModel.V20.Behaviours.Charger do
   def handle(impl, action, payload) when action == "ChangeAvailability", do:
     impl.change_availability(OcppModel.to_struct(M.ChangeAvailabilityRequest, payload))
   def handle(impl, action, payload) when action == "UnlockConnector", do:
-    impl.authorize(OcppModel.to_struct(M.UnlockConnectorRequest, payload))
+    impl.unlock_connector(OcppModel.to_struct(M.UnlockConnectorRequest, payload))
   def handle(_impl, _action, _payload), do: {:error, :unknown_action}
 
 end

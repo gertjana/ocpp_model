@@ -23,8 +23,8 @@ defmodule OcppModel.V20.Behaviours.ChargeSystem do
     do: impl.authorize(OcppModel.to_struct(M.AuthorizeRequest, payload))
   def handle(impl, action, payload) when action == "BootNotification",
     do: impl.boot_notification(OcppModel.to_struct(M.BootNotificationRequest, payload))
-  def handle(impl, action, payload) when action == "HeartBeat",
-    do: impl.heartbeat(OcppModel.to_struct(M.HeartBeat, payload))
+  def handle(impl, action, payload) when action == "Heartbeat",
+    do: impl.heartbeat(OcppModel.to_struct(M.HeartbeatRequest, payload))
   def handle(impl, action, payload) when action == "TransactionEvent",
     do: impl.transaction_event(OcppModel.to_struct(M.TransactionEventRequest, payload))
   def handle(_impl, _action, _payload), do: {:error, :unknown_action}
