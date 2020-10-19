@@ -6,14 +6,14 @@ defmodule OcppModel.V20.Behaviours.ChargeSystem do
   """
   alias OcppModel.V20.Messages, as: M
 
-  @callback authorize(req :: AuthorizeRequest)
-              :: {:ok, AuthorizeResponse} | {:error, :authorize}
-  @callback boot_notification(req :: BootNotificationRequest)
-              :: {:ok, BootNotificationResponse} | {:error, :boot_notification}
-  @callback heartbeat(req :: HeartBeatRequest)
-              :: {:ok, HeartbeatResponse} | {:error, :heartbeat}
-  @callback transaction_event(req :: TransactionEventRequest)
-              :: {:ok, TransactionEventResponse} | {:error, :transaction_event}
+  @callback authorize(req :: AuthorizeRequest) :: {:ok, AuthorizeResponse}
+                                                  | {:error, :authorize}
+  @callback boot_notification(req :: BootNotificationRequest) :: {:ok, BootNotificationResponse}
+                                                                 | {:error, :boot_notification}
+  @callback heartbeat(req :: HeartBeatRequest) :: {:ok, HeartbeatResponse}
+                                                  | {:error, :heartbeat}
+  @callback transaction_event(req :: TransactionEventRequest) :: {:ok, TransactionEventResponse}
+                                                                 | {:error, :transaction_event}
 
   @spec handle(any(), String.t(), %{}) :: {:ok, %{}} | {:error, :atom}
   @doc """

@@ -40,7 +40,6 @@ defmodule OcppModelChargeSystemTest do
   @boot_not_request %M.BootNotificationRequest{reason: "Reboot",
       chargingStation: %FT.ChargingStationType{serialNumber: "GA-XC-001", vendorName: "GA", model: "XC"}}
 
-
   test "MyTestChargeSystem.handle method should give a CallResult response when a correct Call message is given" do
     message = [2, "42", "Authorize", %{idToken: %{idToken: "", type: "NoAuthorization"}}]
     expected = [3, "42", %M.AuthorizeResponse{idTokenInfo: %FT.IdTokenInfoType{status: "Accepted"}}]
