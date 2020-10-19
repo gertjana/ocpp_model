@@ -1,7 +1,6 @@
 # OcppModel
-
-**TODO: Add description**
-
+[![codecov](https://codecov.io/gh/gertjana/ocpp_model/branch/main/graph/badge.svg?token=nrXnKllzIA)](https://codecov.io/gh/gertjana/ocpp_model)
+[![Build Status](https://travis-ci.com/gertjana/ocpp_model.svg?branch=main)](https://travis-ci.com/gertjana/ocpp_model)
 ## Installation
 
 If [available in Hex](https://hex.pm/docs/publish), the package can be installed
