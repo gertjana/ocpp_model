@@ -1,7 +1,8 @@
 defmodule OcppModelChargerTest do
   use ExUnit.Case
-  alias OcppModel.V20.Messages, as: M
+
   alias OcppModel.V20.Behaviours, as: B
+  alias OcppModel.V20.Messages, as: M
 
   defmodule MyTestCharger do
     @behaviour B.Charger

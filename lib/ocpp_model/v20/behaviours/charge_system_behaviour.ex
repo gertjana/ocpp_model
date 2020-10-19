@@ -6,19 +6,27 @@ defmodule OcppModel.V20.Behaviours.ChargeSystem do
   """
   alias OcppModel.V20.Messages, as: M
 
-  @callback authorize(req :: AuthorizeRequest) :: {:ok, AuthorizeResponse} | {:error, :authorize}
-  @callback boot_notification(req :: BootNotificationRequest) :: {:ok, BootNotificationResponse} | {:error, :boot_notification}
-  @callback heartbeat(req :: HeartBeatRequest) :: {:ok, HeartbeatResponse} | {:error, :heartbeat}
-  @callback transaction_event(req :: TransactionEventRequest) :: {:ok, TransactionEventResponse} | {:error, :transaction_event}
+  @callback authorize(req :: AuthorizeRequest)
+              :: {:ok, AuthorizeResponse} | {:error, :authorize}
+  @callback boot_notification(req :: BootNotificationRequest)
+              :: {:ok, BootNotificationResponse} | {:error, :boot_notification}
+  @callback heartbeat(req :: HeartBeatRequest)
+              :: {:ok, HeartbeatResponse} | {:error, :heartbeat}
+  @callback transaction_event(req :: TransactionEventRequest)
+              :: {:ok, TransactionEventResponse} | {:error, :transaction_event}
 
   @spec handle(any(), String.t(), %{}) :: {:ok, %{}} | {:error, :atom}
   @doc """
     Main entrypoint, based on the action parameter, this function will call one of the callback functions
   """
-  def handle(impl, action, payload) when action == "Authorize", do: impl.authorize(OcppModel.to_struct(M.AuthorizeRequest, payload))
-  def handle(impl, action, payload) when action == "BootNotification", do: impl.authorize(OcppModel.to_struct(M.BootNotificationRequest, payload))
-  def handle(impl, action, payload) when action == "HeartBeat", do: impl.authorize(OcppModel.to_struct(M.HeartBeat, payload))
-  def handle(impl, action, payload) when action == "TransactionEvent", do: impl.authorize(OcppModel.to_struct(M.AuthorizeRequest, payload))
+  def handle(impl, action, payload) when action == "Authorize",
+    do: impl.authorize(OcppModel.to_struct(M.AuthorizeRequest, payload))
+  def handle(impl, action, payload) when action == "BootNotification",
+    do: impl.authorize(OcppModel.to_struct(M.BootNotificationRequest, payload))
+  def handle(impl, action, payload) when action == "HeartBeat",
+    do: impl.authorize(OcppModel.to_struct(M.HeartBeat, payload))
+  def handle(impl, action, payload) when action == "TransactionEvent",
+    do: impl.authorize(OcppModel.to_struct(M.AuthorizeRequest, payload))
   def handle(_impl, _action, _payload), do: {:error, :unknown_action}
 
 end

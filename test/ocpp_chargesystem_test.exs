@@ -1,8 +1,9 @@
 defmodule OcppModelChargeSystemTest do
   use ExUnit.Case
-  alias OcppModel.V20.Messages, as: M
-  alias OcppModel.V20.FieldTypes, as: FT
+
   alias OcppModel.V20.Behaviours, as: B
+  alias OcppModel.V20.FieldTypes, as: FT
+  alias OcppModel.V20.Messages, as: M
 
   defmodule MyTestChargeSystem do
     @behaviour B.ChargeSystem
@@ -28,7 +29,7 @@ defmodule OcppModelChargeSystemTest do
     @impl B.ChargeSystem
     def transaction_event(_req), do: {:ok, %M.TransactionEventResponse{}}
 
-    def current_time(), do: DateTime.now!("Etc/UTC") |> DateTime.to_iso8601()
+    def current_time, do: DateTime.now!("Etc/UTC") |> DateTime.to_iso8601()
   end
 
   test "MyTestChargeSystem.handle method should give a CallResult response when a correct Call message is given" do
@@ -51,7 +52,8 @@ defmodule OcppModelChargeSystemTest do
   end
 
   test "MyTestChargeSystem.boot_nofitication request should return a proper response" do
-    request = %M.BootNotificationRequest{reason: "Reboot", chargingStation: %FT.ChargingStationType{serialNumber: "GA-XC-001", vendorName: "GA", model: "XC"}}
+    request = %M.BootNotificationRequest{reason: "Reboot",
+      chargingStation: %FT.ChargingStationType{serialNumber: "GA-XC-001", vendorName: "GA", model: "XC"}}
     {:ok, response} = MyTestChargeSystem.boot_notification(request)
     assert %M.BootNotificationResponse{} = response
   end

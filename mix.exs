@@ -22,7 +22,8 @@ defmodule OcppModel.MixProject do
   defp deps do
     [
       {:typed_struct, "~> 0.2.1"},
-      {:ex_doc, "~> 0.21", only: :dev, runtime: false}
+      {:ex_doc, "~> 0.21", only: :dev, runtime: false},
+      {:credo, "~> 1.5.0-rc-2", only: [:dev, :test], runtime: false}
     ]
   end
 end

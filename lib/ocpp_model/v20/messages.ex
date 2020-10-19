@@ -4,11 +4,12 @@ defmodule OcppModel.V20.Messages do
   """
   import OcppModel.V20.FieldTypes
 
-  # @authorize_certificate_status ["Accepted", "SignatureError", "CertificateExpired", "NoCertificateAvailab", "CertChainError", "CertificateRevoked", "ContractCancelled"]
-  # @boot_reason ["ApplicationReset", "FirmwareUpdate", "LocalReset", "PowerUp",  "RemoteReset", "ScheduledReset", "Triggered", "Unknown",  "Watchdog"]
+  # @authorize_certificate_status ["Accepted", "SignatureError", "CertificateExpired", "NoCertificateAvailab",
+  #                                "CertChainError", "CertificateRevoked", "ContractCancelled"]
+  # @boot_reason ["ApplicationReset", "FirmwareUpdate", "LocalReset", "PowerUp",  "RemoteReset", "ScheduledReset",
+  #               "Triggered", "Unknown",  "Watchdog"]
   # @unlock_status ["Unlocked", "UnlockFailed", "OngoingAuthorizedTransaction", "UnknownConnector"]
   # @operational_status ["Inoperative", "Operative"]
-
 
   defmodule AuthorizeRequest do
     @moduledoc false
@@ -129,5 +130,4 @@ defmodule OcppModel.V20.Messages do
       field :statusInfo, StatusInfoType.t()
     end
   end
-
 end

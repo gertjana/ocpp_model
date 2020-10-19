@@ -10,11 +10,13 @@ defmodule OcppModel.V20.Transport do
     | CALLRESULT | 3 | OcppModel.V20.Transport.CallResult | a response message |
     | CALLERROR  | 4 | OcppModel.V20.Transport.CallError | an error message |
 
-    The messageId of the message for CallResult and CallError should correspond with that of the request they respond to
+    The messageId of the message for CallResult, CallError should correspond with that of the request they respond to
   """
 
   @typedoc false
-  @type t() :: %OcppModel.V20.Transport.Call{} | %OcppModel.V20.Transport.CallResult{} | %OcppModel.V20.Transport.CallError{}
+  @type t() :: %OcppModel.V20.Transport.Call{} |
+               %OcppModel.V20.Transport.CallResult{} |
+               %OcppModel.V20.Transport.CallError{}
   @typedoc false
   @type message() :: list[any()]
 
@@ -65,6 +67,7 @@ defmodule OcppModel.V20.Transport do
   def from_message([3, message_id, payload]),
     do: %CallResult{message_type_id: 3, message_id: message_id, payload: payload}
   def from_message([4, message_id, error_code, error_description, error_details]),
-    do: %CallError{message_type_id: 4, message_id: message_id, error_code: error_code, error_description: error_description, error_details: error_details}
+    do: %CallError{message_type_id: 4, message_id: message_id, error_code: error_code,
+                   error_description: error_description, error_details: error_details}
 
 end
