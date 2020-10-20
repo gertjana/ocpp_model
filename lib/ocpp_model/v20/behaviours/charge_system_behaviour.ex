@@ -6,13 +6,15 @@ defmodule OcppModel.V20.Behaviours.ChargeSystem do
   """
   alias OcppModel.V20.Messages, as: M
 
-  @callback authorize(req :: AuthorizeRequest) :: {:ok, AuthorizeResponse}
+  @callback authorize(req :: M.AuthorizeRequest) :: {:ok, M.AuthorizeResponse}
                                                   | {:error, :authorize}
-  @callback boot_notification(req :: BootNotificationRequest) :: {:ok, BootNotificationResponse}
+  @callback boot_notification(req :: M.BootNotificationRequest) :: {:ok, M.BootNotificationResponse}
                                                                  | {:error, :boot_notification}
-  @callback heartbeat(req :: HeartBeatRequest) :: {:ok, HeartbeatResponse}
+  @callback heartbeat(req :: M.HeartBeatRequest) :: {:ok, M.HeartbeatResponse}
                                                   | {:error, :heartbeat}
-  @callback transaction_event(req :: TransactionEventRequest) :: {:ok, TransactionEventResponse}
+  @callback status_notification(req :: M.StatusNotificationRequest) :: {:ok, M.StatusNotificationResponse}
+                                                                       | {:error, :status_notification}
+  @callback transaction_event(req :: M.TransactionEventRequest) :: {:ok, M.TransactionEventResponse}
                                                                  | {:error, :transaction_event}
 
   @spec handle(any(), String.t(), %{}) :: {:ok, %{}} | {:error, :atom}
@@ -25,6 +27,8 @@ defmodule OcppModel.V20.Behaviours.ChargeSystem do
     do: impl.boot_notification(OcppModel.to_struct(M.BootNotificationRequest, payload))
   def handle(impl, action, payload) when action == "Heartbeat",
     do: impl.heartbeat(OcppModel.to_struct(M.HeartbeatRequest, payload))
+  def handle(impl, action, payload) when action == "StatusNotification",
+    do: impl.status_notification(OcppModel.to_struct(M.StatusNotificationRequest, payload))
   def handle(impl, action, payload) when action == "TransactionEvent",
     do: impl.transaction_event(OcppModel.to_struct(M.TransactionEventRequest, payload))
   def handle(_impl, _action, _payload), do: {:error, :unknown_action}

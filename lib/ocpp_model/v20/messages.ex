@@ -89,6 +89,26 @@ defmodule OcppModel.V20.Messages do
     end
   end
 
+  defmodule StatusNotificationRequest do
+    @moduledoc false
+    use TypedStruct
+
+    typedstruct do
+      field :timestamp, String.t(), enforce: true # dateTime
+      field :connectorStatus, String.t(), enforce: true # ConnectorStatusEnumType
+      field :evseId, integer(), enforce: true
+      field :connectorId, integer(), enforce: true
+    end
+  end
+
+  defmodule StatusNotificationResponse do
+    @moduledoc false
+    use TypedStruct
+
+    typedstruct do
+    end
+  end
+
   defmodule TransactionEventRequest do
     @moduledoc false
     use TypedStruct

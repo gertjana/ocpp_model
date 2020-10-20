@@ -10,7 +10,7 @@ defmodule OcppModelChargeSystemTest do
 
     def handle([2, id, action, payload]) do
       case B.ChargeSystem.handle(__MODULE__, action, payload) do
-        {:ok, response_payload} -> [3, id, response_payload]
+        {:ok, response_payload} -> [3, id, Map.from_struct(response_payload)]
         {:error, error} ->         [4, id, Atom.to_string(error), "", {}]
       end
     end
@@ -27,12 +27,15 @@ defmodule OcppModelChargeSystemTest do
     def heartbeat(_req), do: {:ok, %M.HeartbeatResponse{currentTime: current_time()}}
 
     @impl B.ChargeSystem
+    def status_notification(_req), do: {:ok, %M.StatusNotificationResponse{}}
+
+    @impl B.ChargeSystem
     def transaction_event(_req), do: {:ok, %M.TransactionEventResponse{}}
 
     def current_time, do: DateTime.now!("Etc/UTC") |> DateTime.to_iso8601()
   end
 
-  @tr_ev_request %M.TransactionEventRequest{
+  @tr_ev_request %{
                   eventType: "Started",
                   timestamp: DateTime.now!("Etc/UTC") |> DateTime.to_iso8601(),
                   triggerReason: "Authorized",
@@ -55,7 +58,7 @@ defmodule OcppModelChargeSystemTest do
                     }
                   }
                 }
-  @boot_not_request %M.BootNotificationRequest{
+  @boot_not_request %{
                       reason: "Reboot",
                       chargingStation: %FT.ChargingStationType{
                         serialNumber: "GA-XC-001",
@@ -66,17 +69,22 @@ defmodule OcppModelChargeSystemTest do
 
   test "MyTestChargeSystem.handle method should give a CallResult response when a correct Call message is given" do
     message = [2, "42", "Authorize", %{idToken: %{idToken: "", type: "NoAuthorization"}}]
-    expected = [3, "42", %M.AuthorizeResponse{idTokenInfo: %FT.IdTokenInfoType{status: "Accepted"}}]
+    expected = [3, "42", %{idTokenInfo: %FT.IdTokenInfoType{status: "Accepted"}}]
     assert expected == MyTestChargeSystem.handle(message)
 
     message = [2, "42", "BootNotification", @boot_not_request]
-    assert [3, "42", %M.BootNotificationResponse{currentTime: _}] = MyTestChargeSystem.handle(message)
+    assert [3, "42", %{currentTime: _}] = MyTestChargeSystem.handle(message)
 
     message = [2, "42", "Heartbeat", %{}]
-    assert [3, "42", %M.HeartbeatResponse{currentTime: _}] = MyTestChargeSystem.handle(message)
+    assert [3, "42", %{currentTime: _}] = MyTestChargeSystem.handle(message)
+
+    message = [2, "42", "StatusNotification", %{timestamp: DateTime.now!("Etc/UTC") |> DateTime.to_iso8601(),
+                                                connectorStatus: "Available", evseId: 0, connectorId: 0}]
+    assert [3, "42", %{}] = MyTestChargeSystem.handle(message)
 
     message = [2, "42", "TransactionEvent",  @tr_ev_request]
-    assert [3, "42", %M.TransactionEventResponse{}] = MyTestChargeSystem.handle(message)
+    assert [3, "42", %{}] = MyTestChargeSystem.handle(message)
+
   end
 
   test "MyTestChargeSystem.handle method should give a CallError response when a incorrect Call message is given" do
