@@ -99,6 +99,9 @@ defmodule OcppModel.V20.Messages do
       field :triggerReason, String.t(), enforce: true # TriggerreasonEnumType
       field :seqNo, integer(), enforce: true
       field :transactionInfo, TransactionType.t(), enforce: true
+      field :idToken, IdTokenType.t()
+      field :evse, EvseType.t()
+      field :meterValue, MeterValueType.t()
       # optional fields left out for now
     end
   end

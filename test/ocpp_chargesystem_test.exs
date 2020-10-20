@@ -32,13 +32,37 @@ defmodule OcppModelChargeSystemTest do
     def current_time, do: DateTime.now!("Etc/UTC") |> DateTime.to_iso8601()
   end
 
-  @tr_ev_request %M.TransactionEventRequest{eventType: "Started",
-                                            timestamp: DateTime.now!("Etc/UTC") |> DateTime.to_iso8601(),
-                                            triggerReason: "Authorized",
-                                            seqNo: 0,
-                                            transactionInfo: %FT.TransactionType{transactionId: "GA-XC-001_1"}}
-  @boot_not_request %M.BootNotificationRequest{reason: "Reboot",
-      chargingStation: %FT.ChargingStationType{serialNumber: "GA-XC-001", vendorName: "GA", model: "XC"}}
+  @tr_ev_request %M.TransactionEventRequest{
+                  eventType: "Started",
+                  timestamp: DateTime.now!("Etc/UTC") |> DateTime.to_iso8601(),
+                  triggerReason: "Authorized",
+                  seqNo: 0,
+                  transactionInfo: %FT.TransactionType{transactionId: "GA-XC-001_1"},
+                  evse: %FT.EvseType{id: 1, connector_id: 2},
+                  meterValue: %FT.MeterValueType{
+                    timestamp: DateTime.now!("Etc/UTC") |> DateTime.to_iso8601(),
+                    sampledValue: %FT.SampledValueType{value: 12.34,
+                      signedMeterValue: %FT.SignedMeterValueType{
+                        signedMeterData: "blabla",
+                        signingMethod: "SHA256",
+                        encodingMethod: "GZ",
+                        publicKey: "something public something"
+                      },
+                      unitOfMeasure: %FT.UnitOfMeasureType{
+                        unit: "kWh",
+                        multiplier: 0
+                      }
+                    }
+                  }
+                }
+  @boot_not_request %M.BootNotificationRequest{
+                      reason: "Reboot",
+                      chargingStation: %FT.ChargingStationType{
+                        serialNumber: "GA-XC-001",
+                        vendorName: "GA",
+                        model: "XC"
+                      }
+                    }
 
   test "MyTestChargeSystem.handle method should give a CallResult response when a correct Call message is given" do
     message = [2, "42", "Authorize", %{idToken: %{idToken: "", type: "NoAuthorization"}}]

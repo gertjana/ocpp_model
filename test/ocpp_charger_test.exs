@@ -2,6 +2,7 @@ defmodule OcppModelChargerTest do
   use ExUnit.Case
 
   alias OcppModel.V20.Behaviours, as: B
+  alias OcppModel.V20.FieldTypes, as: FT
   alias OcppModel.V20.Messages, as: M
 
   defmodule MyTestCharger do
@@ -18,20 +19,24 @@ defmodule OcppModelChargerTest do
     def handle([4, id, err, desc, det]), do: IO.puts "Received error for id #{id}: #{err}, #{desc}, #{det}"
 
     @impl B.Charger
-    def change_availability(_req), do: {:ok, %M.ChangeAvailabilityResponse{status: "Accepted"}}
+    def change_availability(_req), do:
+      {:ok, %M.ChangeAvailabilityResponse{status: "Accepted",
+                                          statusInfo: %FT.StatusInfoType{reasonCode: "charger is inoperative"}}}
 
     @impl B.Charger
-    def unlock_connector(_req), do: {:ok, %M.UnlockConnectorResponse{status: "Unlocked"}}
+    def unlock_connector(_req), do:
+      {:ok, %M.UnlockConnectorResponse{status: "Unlocked",
+                                       statusInfo: %FT.StatusInfoType{reasonCode: "cable unlocked"}}}
 
   end
 
   test "MyTestCharger.handle method should give a CallResult response when a correct Call message is given" do
-    message = [2, "42", "ChangeAvailability", %{operationalStatus: "Inoperative"}]
-    expected = [3, "42", %M.ChangeAvailabilityResponse{status: "Accepted"}]
+    message = [2, "42", "ChangeAvailability", %{operationalStatus: "Inoperative", evse: 0}]
+    expected = [3, "42", %M.ChangeAvailabilityResponse{status: "Accepted", statusInfo: %FT.StatusInfoType{reasonCode: "charger is inoperative"}}]
     assert expected == MyTestCharger.handle(message)
 
-    message = [2, "42", "UnlockConnector", %{evseid: 0}]
-    expected = [3, "42", %M.UnlockConnectorResponse{status: "Unlocked"}]
+    message = [2, "42", "UnlockConnector", %{evseId: 0}]
+    expected = [3, "42", %M.UnlockConnectorResponse{status: "Unlocked", statusInfo: %FT.StatusInfoType{reasonCode: "cable unlocked"}}]
     assert expected == MyTestCharger.handle(message)
   end
 
