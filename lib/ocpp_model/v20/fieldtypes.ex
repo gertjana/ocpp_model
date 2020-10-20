@@ -68,6 +68,7 @@ defmodule OcppModel.V20.FieldTypes do
   end
 
   defmodule MeterValueType do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -90,6 +91,7 @@ defmodule OcppModel.V20.FieldTypes do
   end
 
   defmodule SampledValueType do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -104,6 +106,7 @@ defmodule OcppModel.V20.FieldTypes do
   end
 
   defmodule SignedMeterValueType do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
@@ -135,6 +138,7 @@ defmodule OcppModel.V20.FieldTypes do
   end
 
   defmodule UnitOfMeasureType do
+    @moduledoc false
     use TypedStruct
 
     typedstruct do
