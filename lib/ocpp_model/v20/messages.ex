@@ -2,14 +2,7 @@ defmodule OcppModel.V20.Messages do
   @moduledoc """
     OCPP 2.0 message structs
   """
-  import OcppModel.V20.FieldTypes
-
-  # @authorize_certificate_status ["Accepted", "SignatureError", "CertificateExpired", "NoCertificateAvailab",
-  #                                "CertChainError", "CertificateRevoked", "ContractCancelled"]
-  # @boot_reason ["ApplicationReset", "FirmwareUpdate", "LocalReset", "PowerUp",  "RemoteReset", "ScheduledReset",
-  #               "Triggered", "Unknown",  "Watchdog"]
-  # @unlock_status ["Unlocked", "UnlockFailed", "OngoingAuthorizedTransaction", "UnknownConnector"]
-  # @operational_status ["Inoperative", "Operative"]
+  alias OcppModel.V20.FieldTypes, as: FT
 
   defmodule AuthorizeRequest do
     @moduledoc false
@@ -17,7 +10,7 @@ defmodule OcppModel.V20.Messages do
 
     typedstruct do
       # field :certificate, String.t()                                    # 0..5500
-      field :idToken, IdTokenType.t(), enforce: true
+      field :idToken, FT.IdTokenType.t(), enforce: true
       # field :iso15118CertificateHashData, OCSPRequestDataType.t()       # 0..4 ??
     end
   end
@@ -28,7 +21,7 @@ defmodule OcppModel.V20.Messages do
 
     typedstruct do
       # field :certificateStatus, String.t() # AuthorizeCertificateStatusEnumType
-      field :idTokenInfo, IdTokenInfoType.t(), enforce: true
+      field :idTokenInfo, FT.IdTokenInfoType.t(), enforce: true
     end
   end
 
@@ -38,7 +31,7 @@ defmodule OcppModel.V20.Messages do
 
     typedstruct do
       field :reason, String.t(), enforce: true # BootReasonEnumType
-      field :chargingStation, ChargingStationType.t(), enforce: true
+      field :chargingStation, FT.ChargingStationType.t(), enforce: true
     end
   end
 
@@ -48,6 +41,9 @@ defmodule OcppModel.V20.Messages do
 
     typedstruct do
       field :currentTime, String.t(), enforce: true # dateTime
+      field :interval, integer(), enforce: true
+      field :status, String.t(), enforce: true # RegistrationStatusEnumType
+      field :statusInfo, StatusInfoType.t()
     end
   end
 
@@ -67,7 +63,7 @@ defmodule OcppModel.V20.Messages do
 
     typedstruct do
       field :status, String.t(), enforce: true # ChangeAvailabilityStatusEnumType
-      field :statusInfo, StatusInfoType.t()
+      field :statusInfo, FT.StatusInfoType.t()
     end
 
   end
@@ -118,11 +114,11 @@ defmodule OcppModel.V20.Messages do
       field :timestamp, String.t(), enforce: true # dateTime
       field :triggerReason, String.t(), enforce: true # TriggerreasonEnumType
       field :seqNo, integer(), enforce: true
-      field :transactionInfo, TransactionType.t(), enforce: true
-      field :idToken, IdTokenType.t()
-      field :evse, EvseType.t()
-      field :meterValue, MeterValueType.t()
-      # optional fields left out for now
+      field :transactionInfo, FT.TransactionType.t(), enforce: true
+      field :idToken, FT.IdTokenType.t()
+      field :evse, FT.EvseType.t()
+      field :meterValue, FT.MeterValueType.t()
+      # some optional fields left out for now
     end
   end
 
@@ -150,7 +146,7 @@ defmodule OcppModel.V20.Messages do
 
     typedstruct do
       field :status, String.t(), enforce: true # UnlockStatusEnumType
-      field :statusInfo, StatusInfoType.t()
+      field :statusInfo, FT.StatusInfoType.t()
     end
   end
 end

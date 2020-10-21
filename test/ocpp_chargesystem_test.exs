@@ -8,6 +8,7 @@ defmodule OcppModelChargeSystemTest do
   defmodule MyTestChargeSystem do
     @behaviour B.ChargeSystem
 
+    @impl B.ChargeSystem
     def handle([2, id, action, payload]) do
       case B.ChargeSystem.handle(__MODULE__, action, payload) do
         {:ok, response_payload} -> [3, id, Map.from_struct(response_payload)]
@@ -21,7 +22,8 @@ defmodule OcppModelChargeSystemTest do
     def authorize(_req),  do: {:ok, %M.AuthorizeResponse{idTokenInfo: %FT.IdTokenInfoType{status: "Accepted"}}}
 
     @impl B.ChargeSystem
-    def boot_notification(_req), do: {:ok, %M.BootNotificationResponse{currentTime: current_time()}}
+    def boot_notification(_req), do: {:ok, %M.BootNotificationResponse{currentTime: current_time(), interval: 900,
+                                                                       status: %FT.StatusInfoType{reasonCode: ""}}}
 
     @impl B.ChargeSystem
     def heartbeat(_req), do: {:ok, %M.HeartbeatResponse{currentTime: current_time()}}

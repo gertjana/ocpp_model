@@ -3,9 +3,6 @@
 [![Build Status](https://travis-ci.com/gertjana/ocpp_model.svg?branch=main)](https://travis-ci.com/gertjana/ocpp_model)
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `ocpp_model` to your list of dependencies in `mix.exs`:
-
 ```elixir
 def deps do
   [
@@ -14,7 +11,11 @@ def deps do
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/ocpp_model](https://hexdocs.pm/ocpp_model).
+Have a look at 
+```
+lib/test/ocpp_charger_test.ex
+lib/test/ocpp_chargesystem_test.ex
+```
+for an example on how to implement a Charger or ChargeSystem with this library
+
 

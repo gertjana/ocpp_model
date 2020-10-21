@@ -133,7 +133,10 @@ defmodule OcppModel.V20.FieldTypes do
 
     typedstruct do
       field :transactionId, String.t(), enforce: true # 0..36
-      # optional fields left out for now
+      field :chargingState, String.t() # ChargingStateEnumType
+      field :timeSpentCharging, integer()
+      field :stoppedReason, String.t() # ReasonEnumType
+      field :remoteStartId, integer()
     end
   end
 
