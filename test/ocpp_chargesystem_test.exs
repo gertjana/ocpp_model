@@ -8,7 +8,6 @@ defmodule OcppModelChargeSystemTest do
   defmodule MyTestChargeSystem do
     @behaviour B.ChargeSystem
 
-    @impl B.ChargeSystem
     def handle([2, id, action, payload]) do
       case B.ChargeSystem.handle(__MODULE__, action, payload) do
         {:ok, response_payload} -> [3, id, Map.from_struct(response_payload)]

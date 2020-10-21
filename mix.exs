@@ -8,6 +8,7 @@ defmodule OcppModel.MixProject do
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
+      aliases: aliases(),
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [coveralls: :test, "coveralls.json": :test, "coveralls.html": :test]
     ]
@@ -27,6 +28,12 @@ defmodule OcppModel.MixProject do
       {:ex_doc, "~> 0.21", only: :dev, runtime: false},
       {:credo, "~> 1.5.0-rc-2", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
+    ]
+  end
+
+  defp aliases do
+    [
+      all: ["coveralls.json", "test --trace", "credo --strict"]
     ]
   end
 end
