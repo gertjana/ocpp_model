@@ -65,8 +65,30 @@ defmodule OcppModel.V20.Messages do
       field :status, String.t(), enforce: true # ChangeAvailabilityStatusEnumType
       field :statusInfo, FT.StatusInfoType.t()
     end
-
   end
+
+  defmodule DataTransferRequest do
+    @moduledoc false
+    use TypedStruct
+
+    typedstruct do
+      field :messageId, String.t() # 0..50
+      field :data, String.t(), enforce: true # anytype
+      field :vendorId, String.t() # 0..255
+    end
+  end
+
+  defmodule DataTransferResponse do
+    @moduledoc false
+    use TypedStruct
+
+    typedstruct do
+        field :status, String.t(), enforce: true # DataTransferStatusEnumType
+        field :data, String.t() #any type
+        field :statusInfo, Ft.StatusInfoType.t()
+    end
+  end
+
   defmodule HeartbeatRequest do
     @moduledoc false
     use TypedStruct

@@ -23,6 +23,8 @@ defmodule OcppModelChargeSystemTest do
     @impl B.ChargeSystem
     def boot_notification(_req), do: {:ok, %M.BootNotificationResponse{currentTime: current_time(), interval: 900,
                                                                        status: %FT.StatusInfoType{reasonCode: ""}}}
+    @impl B.ChargeSystem
+    def data_transfer(_req), do: {:ok, %M.DataTransferResponse{status: "Accepted"}}
 
     @impl B.ChargeSystem
     def heartbeat(_req), do: {:ok, %M.HeartbeatResponse{currentTime: current_time()}}
@@ -67,22 +69,44 @@ defmodule OcppModelChargeSystemTest do
                         model: "XC"
                       }
                     }
+  @auth_request %{
+                  idToken: %FT.IdTokenType{
+                    idToken: "",
+                    type: "NoAuthorization",
+                    additionalInfo: %FT.AdditionalInfoType{
+                      additionalIdToken: "123456",
+                      type: "OTP"
+                    }
+                  }
+                }
 
-  test "MyTestChargeSystem.handle method should give a CallResult response when a correct Call message is given" do
-    message = [2, "42", "Authorize", %{idToken: %{idToken: "", type: "NoAuthorization"}}]
-    expected = [3, "42", %{idTokenInfo: %FT.IdTokenInfoType{status: "Accepted"}}]
-    assert expected == MyTestChargeSystem.handle(message)
+  test "MyTestChargeSystem.handle method should give a CallResult response when a correct Authorize Call message is given" do
+    message = [2, "42", "Authorize", @auth_request]
+    assert [3, "42", %{idTokenInfo: %FT.IdTokenInfoType{status: "Accepted"}}] == MyTestChargeSystem.handle(message)
+  end
 
+  test "MyTestChargeSystem.handle method should give a CallResult response when a correct BootNotification Call message is given" do
     message = [2, "42", "BootNotification", @boot_not_request]
     assert [3, "42", %{currentTime: _}] = MyTestChargeSystem.handle(message)
+  end
 
+  test "MyTestChargeSystem.handle method should give a CallResult response when a correct DataTransfer Call message is given" do
+    message = [2, "42", "DataTransfer", %{messageId: "001", data: "All your base are belong to us", vendorId: "GA"}]
+    assert [3, "42", %{status: "Accepted"}] = MyTestChargeSystem.handle(message)
+  end
+
+  test "MyTestChargeSystem.handle method should give a CallResult response when a correct Heartbeat Call message is given" do
     message = [2, "42", "Heartbeat", %{}]
     assert [3, "42", %{currentTime: _}] = MyTestChargeSystem.handle(message)
+  end
 
+  test "MyTestChargeSystem.handle method should give a CallResult response when a correct StatusNotification Call message is given" do
     message = [2, "42", "StatusNotification", %{timestamp: DateTime.now!("Etc/UTC") |> DateTime.to_iso8601(),
                                                 connectorStatus: "Available", evseId: 0, connectorId: 0}]
     assert [3, "42", %{}] = MyTestChargeSystem.handle(message)
+  end
 
+  test "MyTestChargeSystem.handle method should give a CallResult response when a correct TransactionEvent Call message is given" do
     message = [2, "42", "TransactionEvent",  @tr_ev_request]
     assert [3, "42", %{}] = MyTestChargeSystem.handle(message)
 
@@ -104,6 +128,12 @@ defmodule OcppModelChargeSystemTest do
   test "MyTestChargeSystem.boot_nofitication request should return a proper response" do
     {:ok, response} = MyTestChargeSystem.boot_notification(@boot_not_request)
     assert %M.BootNotificationResponse{} = response
+  end
+
+  test "MyTestChargeSystem.data_transfer request should return a proper response" do
+    request = %M.DataTransferRequest{messageId: "001", data: "All your base are belong to us", vendorId: "GA"}
+    {:ok, response} = MyTestChargeSystem.data_transfer(request)
+    assert %M.DataTransferResponse{} = response
   end
 
   test "MyTestChargeSystem.heartbeat request should return a proper response" do

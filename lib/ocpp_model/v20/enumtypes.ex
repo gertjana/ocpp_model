@@ -12,6 +12,7 @@ defmodule OcppModel.V20.EnumTypes do
     ChangeAvailabilityStatusEnumType:   ["Accepted", "Rejected", "Scheduled"],
     ChargingStateEnumType:              ["Charging", "SuspendedEV", "SuspendedEVSE", "Idle"],
     ConnectorStatusEnumType:            ["Available", "Occupied", "Reserved", "Faulted"],
+    DataTransferStatusEnum:             ["Accepted", "Rejected", "UnknownMessageId", "UnknownVendorId"],
     HashAlgorithmEnumType:              ["SHA256", "SHA384", "SHA512"],
     IdTokenEnumType:                    ["Central", "eMAID", "ISO14443", "ISO15693", "KeyCode", "Local ",
                                          "MacAddress ", "NoAuthorization"],

@@ -8,6 +8,9 @@ defmodule OcppModel.V20.Behaviours.Charger do
   @callback change_availability(req :: ChangeAvailabilityRequest)
               :: ChangeAvailabilityResponse | {:error, :change_availability}
 
+  @callback data_transfer(req :: M.DataTransferRequest)
+              :: {:ok, M.DataTransferResponse} | {:error, :data_transfer}
+
   @callback unlock_connector(req :: UnlockConnectorRequest)
               :: UnlockConnectorResponse | {:error, :unlock_connector}
 
@@ -17,6 +20,10 @@ defmodule OcppModel.V20.Behaviours.Charger do
   """
   def handle(impl, action, payload) when action == "ChangeAvailability" do
     impl.change_availability(OcppModel.to_struct(M.ChangeAvailabilityRequest, payload))
+  end
+
+  def handle(impl, action, payload) when action == "DataTransfer" do
+    impl.data_transfer(OcppModel.to_struct(M.DataTransferRequest, payload))
   end
 
   def handle(impl, action, payload) when action == "UnlockConnector" do
