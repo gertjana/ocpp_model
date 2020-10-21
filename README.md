@@ -13,8 +13,8 @@ end
 
 Have a look at 
 ```
-lib/test/ocpp_charger_test.ex
-lib/test/ocpp_chargesystem_test.ex
+/test/ocpp_charger_test.ex
+/test/ocpp_chargesystem_test.ex
 ```
 for an example on how to implement a Charger or ChargeSystem with this library
 
