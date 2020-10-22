@@ -19,17 +19,16 @@ defmodule OcppModel.V20.Behaviours.Charger do
     Main entrypoint, based on the action parameter, this function will call one of the callback functions
   """
   def handle(impl, action, payload) when action == "ChangeAvailability" do
-    impl.change_availability(OcppModel.to_struct(M.ChangeAvailabilityRequest, payload))
+    payload |> OcppModel.to_struct(M.ChangeAvailabilityRequest) |> impl.change_availability |> OcppModel.to_map()
   end
 
   def handle(impl, action, payload) when action == "DataTransfer" do
-    impl.data_transfer(OcppModel.to_struct(M.DataTransferRequest, payload))
+    payload |> OcppModel.to_struct(M.DataTransferRequest) |> impl.data_transfer |> OcppModel.to_map()
   end
 
   def handle(impl, action, payload) when action == "UnlockConnector" do
-    impl.unlock_connector(OcppModel.to_struct(M.UnlockConnectorRequest, payload))
+    payload |> OcppModel.to_struct(M.UnlockConnectorRequest) |> impl.unlock_connector |> OcppModel.to_map()
   end
 
   def handle(_impl, _action, _payload), do: {:error, :unknown_action}
-
 end

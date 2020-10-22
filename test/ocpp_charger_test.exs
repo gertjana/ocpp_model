@@ -35,7 +35,7 @@ defmodule OcppModelChargerTest do
 
   test "MyTestCharger.handle method should give a CallResult response when a ChangeAvailability Call message is given" do
     message = [2, "42", "ChangeAvailability", %{operationalStatus: "Inoperative", evse: 0}]
-    expected = [3, "42", %M.ChangeAvailabilityResponse{status: "Accepted", statusInfo: %FT.StatusInfoType{reasonCode: "charger is inoperative"}}]
+    expected = [3, "42", %{status: "Accepted", statusInfo: %{reasonCode: "charger is inoperative"}}]
     assert expected == MyTestCharger.handle(message)
   end
 
@@ -46,7 +46,7 @@ defmodule OcppModelChargerTest do
 
   test "MyTestCharger.handle method should give a CallResult response when a UnlockConnector Call message is given" do
     message = [2, "42", "UnlockConnector", %{evseId: 0}]
-    expected = [3, "42", %M.UnlockConnectorResponse{status: "Unlocked", statusInfo: %FT.StatusInfoType{reasonCode: "cable unlocked"}}]
+    expected = [3, "42", %{status: "Unlocked", statusInfo: %{reasonCode: "cable unlocked"}}]
     assert expected == MyTestCharger.handle(message)
   end
 

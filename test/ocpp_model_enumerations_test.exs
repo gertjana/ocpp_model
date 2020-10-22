@@ -20,7 +20,7 @@ defmodule OcppModelEnumerationsTest do
   end
 
   test "get a single enum type" do
-    assert ["SHA256", "SHA384", "SHA512"] = ET.get(:HashAlgorithmEnumType)
+    assert ["SHA256", "SHA384", "SHA512"] == ET.get(:HashAlgorithmEnumType)
   end
 
   test "get an unknown enum type" do
