@@ -46,11 +46,19 @@ defmodule OcppModel.V20.EnumTypes do
                                          "UnknownConnector"],
   }
 
-@spec validate?(atom(), String.t()) :: boolean
+  @spec validate?(atom(), String.t()) :: boolean
   def validate?(enum_type, value) do
     case Map.get(@enum_types, enum_type) do
       nil -> false
       values -> Enum.member?(values, value)
+    end
+  end
+
+  @spec get(atom() | nil) :: %{} | list(String.t() | nil)
+  def get(item \\ nil) do
+    case item do
+      nil -> @enum_types
+      item -> Map.get(@enum_types, item)
     end
   end
 end

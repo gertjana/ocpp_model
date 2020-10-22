@@ -3,15 +3,27 @@ defmodule OcppModelEnumerationsTest do
 
   alias OcppModel.V20.EnumTypes, as: ET
 
-  test "check valid enumeration" do
+  test "valid enumeration" do
     assert ET.validate?(:TriggerReasonEnumType, "MeterValuePeriodic")
   end
 
-  test "check wrong key enumeration" do
+  test "wrong key enumeration" do
     assert ! ET.validate?(:UnknownEnumType, "Accepted")
   end
 
-  test "check wrong value enumeration" do
+  test "wrong value enumeration" do
     assert ! ET.validate?(:OperationalStatusEnumType, "CertificateExpired")
+  end
+
+  test "get all enum types" do
+    assert %{} = ET.get()
+  end
+
+  test "get a single enum type" do
+    assert ["SHA256", "SHA384", "SHA512"] = ET.get(:HashAlgorithmEnumType)
+  end
+
+  test "get an unknown enum type" do
+    assert nil == ET.get(:FooBar)
   end
 end
