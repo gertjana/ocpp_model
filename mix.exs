@@ -33,7 +33,8 @@ defmodule OcppModel.MixProject do
 
   defp aliases do
     [
-      all: ["coveralls.json", "test --trace", "credo --strict"]
+      all: ["compile --warnings-as-errors", "test --trace", "coveralls", "credo --strict"],
+      tt: ["test --trace"]
     ]
   end
 end
