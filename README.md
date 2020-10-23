@@ -28,7 +28,6 @@ Using the library is by having your module assume either the `OcppModel.V20.Beha
 ## An example Charger
 
 ```
-  
   defmodule MyTestCharger do
 
     alias OcppModel.V20.Behaviours, as: B
@@ -36,7 +35,6 @@ Using the library is by having your module assume either the `OcppModel.V20.Beha
     alias OcppModel.V20.Messages, as: M
 
     @behaviour B.Charger
-
 
     def handle([2, id, action, payload]) do
       case B.Charger.handle(MyTestCharger, action, payload) do

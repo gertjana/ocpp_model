@@ -23,7 +23,7 @@ defmodule OcppModelTest do
 
   test "that to_map converts a struct with optional nested structs to a map" do
     st = %M.AuthorizeResponse{idTokenInfo: %FT.IdTokenInfoType{status: "Accepted"}}
-    assert %{idTokenInfo: %{status: "Accepted"}} == OcppModel.to_map(st)
+    assert %{idTokenInfo: %{status: "Accepted"}} == OcppModel.to_map!(st)
     assert {:ok, %{idTokenInfo: %{status: "Accepted"}}} == OcppModel.to_map({:ok, st})
   end
 

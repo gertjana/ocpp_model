@@ -24,7 +24,7 @@ defmodule OcppModel.V20.Behaviours.ChargeSystem do
   @callback transaction_event(req :: M.TransactionEventRequest)
               :: {:ok, M.TransactionEventResponse} | {:error, :transaction_event}
 
-  @spec handle(any(), String.t(), %{}) :: {:ok, %{}} | {:error, :atom}
+  @spec handle(any(), String.t(), map()) :: {:ok, map()} | {:error, atom()}
   @doc """
     Main entrypoint, based on the action parameter, this function will call one of the callback functions with the payload
   """
