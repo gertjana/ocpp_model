@@ -21,11 +21,104 @@ def deps do
 end
 ```
 
-Have a look at 
-```
-/test/ocpp_charger_test.ex
-/test/ocpp_chargesystem_test.ex
-```
-for an example on how to implement a Charger or ChargeSystem with this library
+## Usage
 
+Using the library is by having your module assume either the `OcppModel.V20.Behaviours.Charger` or the `OcppModel.V20.Behaviours.ChargeSystem` Behaviour.
+
+## An example Charger
+
+```
+  
+  defmodule MyTestCharger do
+
+    alias OcppModel.V20.Behaviours, as: B
+    alias OcppModel.V20.FieldTypes, as: FT
+    alias OcppModel.V20.Messages, as: M
+
+    @behaviour B.Charger
+
+
+    def handle([2, id, action, payload]) do
+      case B.Charger.handle(MyTestCharger, action, payload) do
+        {:ok, response_payload} -> [3, id, response_payload]
+        {:error, error} ->         [4, id, Atom.to_string(error), "", {}]
+      end
+    end
+
+    def handle([3, id, payload]), do: IO.puts "Received answer for id #{id}: #{inspect(payload)}"
+    def handle([4, id, err, desc, det]), do: IO.puts "Received error for id #{id}: #{err}, #{desc}, #{det}"
+
+    @impl B.Charger
+    def change_availability(_req), do:
+      {:ok, %M.ChangeAvailabilityResponse{status: "Accepted",
+                                          statusInfo: %FT.StatusInfoType{reasonCode: "charger is inoperative"}}}
+
+    @impl B.Charger
+    def data_transfer(_req), do: {:ok, %M.DataTransferResponse{status: "Accepted"}}
+
+    @impl B.Charger
+    def unlock_connector(_req), do:
+      {:ok, %M.UnlockConnectorResponse{status: "Unlocked",
+                                       statusInfo: %FT.StatusInfoType{reasonCode: "cable unlocked"}}}
+
+  end
+```
+
+## An Example ChargeSystem
+
+```
+  defmodule MyTestChargeSystem do
+
+    alias OcppModel.V20.Behaviours, as: B
+    alias OcppModel.V20.FieldTypes, as: FT
+    alias OcppModel.V20.Messages, as: M
+
+    @behaviour B.ChargeSystem
+
+    def handle([2, id, action, payload]) do
+      case B.ChargeSystem.handle(__MODULE__, action, payload) do
+        {:ok, response_payload} -> [3, id, response_payload]
+        {:error, error} ->         [4, id, Atom.to_string(error), "", {}]
+      end
+    end
+    def handle([3, id, payload]), do: IO.puts "Received answer for id #{id}: #{inspect(payload)}"
+    def handle([4, id, err, desc, det]), do: IO.puts "Received error for id #{id}: #{err}, #{desc}, #{det}"
+
+    @impl B.ChargeSystem
+    def authorize(_req) do
+      {:ok, %M.AuthorizeResponse{idTokenInfo: %FT.IdTokenInfoType{status: "Accepted"}}}
+    end
+
+    @impl B.ChargeSystem
+    def boot_notification(_req) do
+       {:ok, %M.BootNotificationResponse{currentTime: current_time(), interval: 900,
+                                         status: %FT.StatusInfoType{reasonCode: ""}}}
+    end
+
+    @impl B.ChargeSystem
+    def data_transfer(req) do
+      case req.vendorId do
+        "GA" -> {:ok, %M.DataTransferResponse{status: "Accepted", data: String.reverse(req.data)}}
+        _ -> {:ok, %M.DataTransferResponse{status: "UnknownVendorId"}}
+      end
+    end
+
+    @impl B.ChargeSystem
+    def heartbeat(_req) do
+      {:ok, %M.HeartbeatResponse{currentTime: current_time()}}
+    end
+
+    @impl B.ChargeSystem
+    def status_notification(_req) do
+      {:ok, %M.StatusNotificationResponse{}}
+    end
+
+    @impl B.ChargeSystem
+    def transaction_event(_req) do
+      {:ok, %M.TransactionEventResponse{}}
+    end
+
+    def current_time, do: DateTime.now!("Etc/UTC") |> DateTime.to_iso8601()
+  end
+```
 

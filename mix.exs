@@ -1,14 +1,17 @@
 defmodule OcppModel.MixProject do
   use Mix.Project
 
+  @version "0.1.0"
+
   def project do
     [
       app: :ocpp_model,
-      version: "0.1.0",
+      version: @version,
       elixir: "~> 1.10",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       aliases: aliases(),
+      docs: docs(),
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [coveralls: :test, "coveralls.json": :test, "coveralls.html": :test]
     ]
@@ -35,6 +38,16 @@ defmodule OcppModel.MixProject do
     [
       all: ["compile --warnings-as-errors", "test --trace", "coveralls", "credo --strict"],
       tt: ["test --trace"]
+    ]
+  end
+
+  defp docs do
+    [
+      extras: [
+        "README.md"
+      ],
+      source_ref: "v#{@version}",
+      source_url: "https://github.com/gertjana/ocpp_model",
     ]
   end
 end
