@@ -12,6 +12,7 @@ defmodule OcppModel.MixProject do
       deps: deps(),
       aliases: aliases(),
       docs: docs(),
+      package: package(),
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [coveralls: :test, "coveralls.json": :test, "coveralls.html": :test]
     ]
@@ -48,6 +49,15 @@ defmodule OcppModel.MixProject do
       ],
       source_ref: "v#{@version}",
       source_url: "https://github.com/gertjana/ocpp_model",
+    ]
+  end
+
+  defp package do
+    [
+      files: ["lib", "mix.exs", "README.md", "LICENSE*"],
+      maintainers: ["Gertjan Assies"],
+      licenses: ["Apache 2.0"],
+      links: %{"GitHub" => "https://github.com/gertjana/ocpp_model"}
     ]
   end
 end

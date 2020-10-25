@@ -1,4 +1,4 @@
-# OcppModel
+# An Ocpp Model
 [![codecov](https://codecov.io/gh/gertjana/ocpp_model/branch/main/graph/badge.svg?token=nrXnKllzIA)](https://codecov.io/gh/gertjana/ocpp_model)
 [![Build Status](https://travis-ci.com/gertjana/ocpp_model.svg?branch=main)](https://travis-ci.com/gertjana/ocpp_model)
 
@@ -13,6 +13,8 @@ It will be populated on a 'need to have' basis starting with basic charger funct
 ## Implemented Messages
 
 `C=Charger, CS=ChargeSystem, arrow  Message Direction`
+
+### OCPP 2.0.1
 
  - `C->CS AuthorizeRequest/Response`
  - `C->CS BootNoficationRequest/Response`
@@ -37,6 +39,17 @@ end
 ## Usage
 
 Using the library is by having your module assume either the `OcppModel.V20.Behaviours.Charger` or the `OcppModel.V20.Behaviours.ChargeSystem` Behaviour.
+
+
+This library does not make any decisions on transport, you can the json over websockets thing, or protobuf over http long-polling
+or an IoT solution as long as it supports bi-directional communication
+```bash
++---------------+     +----------------+    Internet    +----------------+     +--------------------+
+| MyTestCharger | <-> | json/websocket | <- Lora     -> | websocket/json | <-> | MyTestChargeSystem | 
++---------------+     +----------------+    IoT         +----------------+     +--------------------+
+                  \----------------------------------------------------------/
+                                       Implement yourself  
+```
 
 ## An example Charger
 
