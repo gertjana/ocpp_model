@@ -2,8 +2,9 @@ defmodule OcppModelChargerTest do
   use ExUnit.Case
 
   alias OcppModel.V20.Behaviours, as: B
+  alias OcppModel.V20.EnumTypes,  as: ET
   alias OcppModel.V20.FieldTypes, as: FT
-  alias OcppModel.V20.Messages, as: M
+  alias OcppModel.V20.Messages,   as: M
 
   defmodule MyTestCharger do
     @behaviour B.Charger
@@ -19,9 +20,14 @@ defmodule OcppModelChargerTest do
     def handle([4, id, err, desc, det]), do: IO.puts "Received error for id #{id}: #{err}, #{desc}, #{det}"
 
     @impl B.Charger
-    def change_availability(_req), do:
-      {:ok, %M.ChangeAvailabilityResponse{status: "Accepted",
-                                          statusInfo: %FT.StatusInfoType{reasonCode: "charger is inoperative"}}}
+    def change_availability(req) do
+      if ET.validate?(:operationalStatusEnumType, req.operationalStatus) do
+         {:ok, %M.ChangeAvailabilityResponse{status: "Accepted",
+                  statusInfo: %FT.StatusInfoType{reasonCode: "charger is inoperative"}}}
+      else
+        {:error, :invalid_operational_status}
+      end
+    end
 
     @impl B.Charger
     def data_transfer(_req), do: {:ok, %M.DataTransferResponse{status: "Accepted"}}

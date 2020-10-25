@@ -10,6 +10,19 @@ This library contains the OCPP 2.x Model / Protocol that is needed for both thos
 
 It will be populated on a 'need to have' basis starting with basic charger functionality
 
+## Implemented Messages
+
+`C=Charger, CS=ChargeSystem, arrow  Message Direction`
+
+ - `C->CS AuthorizeRequest/Response`
+ - `C->CS BootNoficationRequest/Response`
+ - `C<-CS ChangeAvailabilityRequest/Response`
+ - `C<>CS DataTransferRequest/Response`
+ - `C->CS HeartbeatRequest/Response`
+ - `C->CS StatusNotificationRequest/Response`
+ - `C->CS TransationEventRequest/Response`
+ - `C<-CS UnlockConnectorRequest/Response`
+
 
 ## Installation
 
@@ -31,8 +44,9 @@ Using the library is by having your module assume either the `OcppModel.V20.Beha
   defmodule MyTestCharger do
 
     alias OcppModel.V20.Behaviours, as: B
+    alias OcppModel.V20.EnumTypes,  as: ET
     alias OcppModel.V20.FieldTypes, as: FT
-    alias OcppModel.V20.Messages, as: M
+    alias OcppModel.V20.Messages,   as: M
 
     @behaviour B.Charger
 
@@ -46,11 +60,16 @@ Using the library is by having your module assume either the `OcppModel.V20.Beha
     def handle([3, id, payload]), do: IO.puts "Received answer for id #{id}: #{inspect(payload)}"
     def handle([4, id, err, desc, det]), do: IO.puts "Received error for id #{id}: #{err}, #{desc}, #{det}"
 
-    @impl B.Charger
-    def change_availability(_req), do:
-      {:ok, %M.ChangeAvailabilityResponse{status: "Accepted",
-                                          statusInfo: %FT.StatusInfoType{reasonCode: "charger is inoperative"}}}
-
+   @impl B.Charger
+    def change_availability(req) do
+      if ET.validate?(:operationalStatusEnumType, req.operationalStatus) do
+         {:ok, %M.ChangeAvailabilityResponse{status: "Accepted",
+                  statusInfo: %FT.StatusInfoType{reasonCode: "charger is inoperative"}}}
+      else
+        {:error, :invalid_operational_status}
+      end
+    end
+    
     @impl B.Charger
     def data_transfer(_req), do: {:ok, %M.DataTransferResponse{status: "Accepted"}}
 
@@ -68,8 +87,9 @@ Using the library is by having your module assume either the `OcppModel.V20.Beha
   defmodule MyTestChargeSystem do
 
     alias OcppModel.V20.Behaviours, as: B
+    alias OcppModel.V20.EnumTypes,  as: ET
     alias OcppModel.V20.FieldTypes, as: FT
-    alias OcppModel.V20.Messages, as: M
+    alias OcppModel.V20.Messages,   as: M
 
     @behaviour B.ChargeSystem
 
@@ -88,9 +108,13 @@ Using the library is by having your module assume either the `OcppModel.V20.Beha
     end
 
     @impl B.ChargeSystem
-    def boot_notification(_req) do
-       {:ok, %M.BootNotificationResponse{currentTime: current_time(), interval: 900,
-                                         status: %FT.StatusInfoType{reasonCode: ""}}}
+    def boot_notification(req) do
+      if ET.validate?(:bootReasonEnumType, req.reason) do
+        {:ok, %M.BootNotificationResponse{currentTime: current_time(), interval: 900,
+                status: %FT.StatusInfoType{reasonCode: ""}}}
+      else
+        {:error, :invalid_bootreason}
+      end
     end
 
     @impl B.ChargeSystem

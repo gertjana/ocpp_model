@@ -2,8 +2,9 @@ defmodule OcppModelChargeSystemTest do
   use ExUnit.Case
 
   alias OcppModel.V20.Behaviours, as: B
+  alias OcppModel.V20.EnumTypes,  as: ET
   alias OcppModel.V20.FieldTypes, as: FT
-  alias OcppModel.V20.Messages, as: M
+  alias OcppModel.V20.Messages,   as: M
 
   defmodule MyTestChargeSystem do
     @behaviour B.ChargeSystem
@@ -23,9 +24,13 @@ defmodule OcppModelChargeSystemTest do
     end
 
     @impl B.ChargeSystem
-    def boot_notification(_req) do
-       {:ok, %M.BootNotificationResponse{currentTime: current_time(), interval: 900,
-                                         status: %FT.StatusInfoType{reasonCode: ""}}}
+    def boot_notification(req) do
+      if ET.validate?(:bootReasonEnumType, req.reason) do
+        {:ok, %M.BootNotificationResponse{currentTime: current_time(), interval: 900,
+                status: %FT.StatusInfoType{reasonCode: ""}}}
+      else
+        {:error, :invalid_bootreason}
+      end
     end
 
     @impl B.ChargeSystem
@@ -78,7 +83,7 @@ defmodule OcppModelChargeSystemTest do
                     }
                   }
   @boot_not_request %{
-                      reason: "Reboot",
+                      reason: "PowerUp",
                       chargingStation: %FT.ChargingStationType{
                         serialNumber: "GA-XC-001",
                         vendorName: "GA",
