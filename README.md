@@ -1,6 +1,7 @@
 # An Ocpp Model
 [![codecov](https://codecov.io/gh/gertjana/ocpp_model/branch/main/graph/badge.svg?token=nrXnKllzIA)](https://codecov.io/gh/gertjana/ocpp_model)
 [![Build Status](https://travis-ci.com/gertjana/ocpp_model.svg?branch=main)](https://travis-ci.com/gertjana/ocpp_model)
+[![Hex pm](http://img.shields.io/hexpm/v/ocpp_model.svg?style=flat)](https://hex.pm/packages/ocpp_model)
 
 Currently I'm running 2 experiments
  - An Ocpp Backend in Elixir
