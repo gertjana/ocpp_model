@@ -12,7 +12,7 @@ defmodule OcppModelChargerTest do
     def handle([2, id, action, payload]) do
       case B.Charger.handle(MyTestCharger, action, payload) do
         {:ok, response_payload} -> [3, id, response_payload]
-        {:error, error} ->         [4, id, Atom.to_string(error), "", {}]
+        {:error, error, desc} -> [4, id, Atom.to_string(error), desc, {}]
       end
     end
 
@@ -25,7 +25,7 @@ defmodule OcppModelChargerTest do
          {:ok, %M.ChangeAvailabilityResponse{status: "Accepted",
                   statusInfo: %FT.StatusInfoType{reasonCode: "charger is inoperative"}}}
       else
-        {:error, :invalid_operational_status}
+        {:error, :invalid_operational_status, "#{req.operationalStatus} is not a valid OperationalStatus"}
       end
     end
 
@@ -58,7 +58,7 @@ defmodule OcppModelChargerTest do
 
   test "MyTestCharger.handle method should give a CallError response when a incorrect Call message is given" do
     message = [2, "42", "Unknown", %{}]
-    expected = [4, "42", "unknown_action", "", {}]
+    expected = [4, "42", "unknown_action", "Action Unknown is unknown", {}]
     assert expected == MyTestCharger.handle(message)
   end
 

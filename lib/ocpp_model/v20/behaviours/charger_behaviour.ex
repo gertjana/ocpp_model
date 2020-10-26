@@ -6,15 +6,15 @@ defmodule OcppModel.V20.Behaviours.Charger do
   alias OcppModel.V20.Messages, as: M
 
   @callback change_availability(req :: ChangeAvailabilityRequest)
-              :: ChangeAvailabilityResponse | {:error, :change_availability}
+              :: ChangeAvailabilityResponse | {:error, :change_availability, String.t()}
 
   @callback data_transfer(req :: M.DataTransferRequest)
-              :: {:ok, M.DataTransferResponse} | {:error, :data_transfer}
+              :: {:ok, M.DataTransferResponse} | {:error, :data_transfer, String.t()}
 
   @callback unlock_connector(req :: UnlockConnectorRequest)
-              :: UnlockConnectorResponse | {:error, :unlock_connector}
+              :: UnlockConnectorResponse | {:error, :unlock_connector, String.t()}
 
-  @spec handle(any(), String.t(), map()) :: {:ok, map()} | {:error, atom()}
+  @spec handle(any(), String.t(), map()) :: {:ok, map()} | {:error, atom(), String.t()}
   @doc """
     Main entrypoint, based on the action parameter, this function will call one of the callback functions
   """
@@ -30,5 +30,5 @@ defmodule OcppModel.V20.Behaviours.Charger do
     payload |> OcppModel.to_struct(M.UnlockConnectorRequest) |> impl.unlock_connector |> OcppModel.to_map()
   end
 
-  def handle(_impl, _action, _payload), do: {:error, :unknown_action}
+  def handle(_impl, action, _payload), do: {:error, :unknown_action, "Action #{action} is unknown"}
 end

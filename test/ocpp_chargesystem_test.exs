@@ -12,7 +12,7 @@ defmodule OcppModelChargeSystemTest do
     def handle([2, id, action, payload]) do
       case B.ChargeSystem.handle(__MODULE__, action, payload) do
         {:ok, response_payload} -> [3, id, response_payload]
-        {:error, error} ->         [4, id, Atom.to_string(error), "", {}]
+        {:error, error, desc} -> [4, id, Atom.to_string(error), desc, {}]
       end
     end
     def handle([3, id, payload]), do: IO.puts "Received answer for id #{id}: #{inspect(payload)}"
@@ -29,7 +29,7 @@ defmodule OcppModelChargeSystemTest do
         {:ok, %M.BootNotificationResponse{currentTime: current_time(), interval: 900,
                 status: %FT.StatusInfoType{reasonCode: ""}}}
       else
-        {:error, :invalid_bootreason}
+        {:error, :invalid_bootreason, "#{req.reason} is not a valid BootReason"}
       end
     end
 
@@ -134,8 +134,8 @@ defmodule OcppModelChargeSystemTest do
 
   test "MyTestChargeSystem.handle should give a CallError response when a incorrect Call message is given" do
     message = [2, "42", "Unknown", %{}]
-    expected = [4, "42", "unknown_action", "", {}]
-    assert expected == MyTestChargeSystem.handle(message)
+    expected = [4, "42", "unknown_action", "Action Unknown is unknown", {}]
+    assert expected = MyTestChargeSystem.handle(message)
   end
 
   # Individual tests on callback methods

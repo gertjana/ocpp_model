@@ -28,7 +28,7 @@ defmodule OcppModel do
     st |> Map.from_struct |> Enum.reduce(%{}, struct_to_map)
   end
 
-  @spec to_map({:error, atom()} | {:ok, struct()}) :: {:error, atom()} | {:ok, map()}
+  @spec to_map({:ok, struct()} | {:error, atom(), String.t()}) :: {:ok, map()} | {:error, atom(), String.t()}
   def to_map({:ok, st}) when is_struct(st), do: {:ok, to_map!(st)}
-  def to_map({:error, error}), do: {:error, error}
+  def to_map({:error, error, desc}), do: {:error, error, desc}
 end
