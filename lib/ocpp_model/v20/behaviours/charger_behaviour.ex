@@ -14,7 +14,7 @@ defmodule OcppModel.V20.Behaviours.Charger do
   @callback unlock_connector(req :: UnlockConnectorRequest)
               :: UnlockConnectorResponse | {:error, :unlock_connector, String.t()}
 
-  @spec handle(any(), String.t(), map()) :: {:ok, map()} | {:error, atom(), String.t()}
+  @spec handle(atom(), String.t(), map()) :: {:ok, map()} | {:error, atom(), String.t()}
   @doc """
     Main entrypoint, based on the action parameter, this function will call one of the callback functions
   """

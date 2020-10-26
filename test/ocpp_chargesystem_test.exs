@@ -135,7 +135,7 @@ defmodule OcppModelChargeSystemTest do
   test "MyTestChargeSystem.handle should give a CallError response when a incorrect Call message is given" do
     message = [2, "42", "Unknown", %{}]
     expected = [4, "42", "unknown_action", "Action Unknown is unknown", {}]
-    assert expected = MyTestChargeSystem.handle(message)
+    assert expected == MyTestChargeSystem.handle(message)
   end
 
   # Individual tests on callback methods

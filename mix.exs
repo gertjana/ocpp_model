@@ -45,8 +45,9 @@ defmodule OcppModel.MixProject do
 
   defp docs do
     [
+      main: "readme",
       extras: [
-        "README.md"
+        "README.md", "LICENSE"
       ],
       source_ref: "v#{@version}",
       source_url: "https://github.com/gertjana/ocpp_model",
