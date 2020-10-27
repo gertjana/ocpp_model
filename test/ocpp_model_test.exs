@@ -27,4 +27,9 @@ defmodule OcppModelTest do
     assert {:ok, %{idTokenInfo: %{status: "Accepted"}}} == OcppModel.to_map({:ok, st})
   end
 
+  test "that passing an error to to_map results in the same error" do
+    error = {:error, :some_error, "Something made a boo boo"}
+    assert error == OcppModel.to_map(error)
+  end
+
 end
