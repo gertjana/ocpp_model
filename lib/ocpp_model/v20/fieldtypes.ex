@@ -57,15 +57,15 @@ defmodule OcppModel.V20.FieldTypes do
 
   end
 
-  defmodule ModemType do
-    @moduledoc false
-    use TypedStruct
+  # defmodule ModemType do
+  #   @moduledoc false
+  #   use TypedStruct
 
-    typedstruct do
-      field :iccid, String.t() # 0..20
-      field :imsi, String.t() # 0..20
-    end
-  end
+  #   typedstruct do
+  #     field :iccid, String.t() # 0..20
+  #     field :imsi, String.t() # 0..20
+  #   end
+  # end
 
   defmodule MeterValueType do
     @moduledoc false
@@ -77,18 +77,18 @@ defmodule OcppModel.V20.FieldTypes do
     end
   end
 
-  defmodule OCSPRequestDataType do
-    @moduledoc false
-    use TypedStruct
+  # defmodule OCSPRequestDataType do
+  #   @moduledoc false
+  #   use TypedStruct
 
-    typedstruct do
-      field :hashAlgorithm, String.t(), enforce: true                 # HashAlgorithmEnumType
-      field :issuerNameHash, String.t(), enforce: true                # 0..512
-      field :issuerKeyHash, String.t(), enforce: true                 # 0..128
-      field :serialNumber, String.t(), enforce: true                  # 0..40
-      field :responderURL, String.t(), enforce: true                  # 0..512
-    end
-  end
+  #   typedstruct do
+  #     field :hashAlgorithm, String.t(), enforce: true                 # HashAlgorithmEnumType
+  #     field :issuerNameHash, String.t(), enforce: true                # 0..512
+  #     field :issuerKeyHash, String.t(), enforce: true                 # 0..128
+  #     field :serialNumber, String.t(), enforce: true                  # 0..40
+  #     field :responderURL, String.t(), enforce: true                  # 0..512
+  #   end
+  # end
 
   defmodule SampledValueType do
     @moduledoc false
