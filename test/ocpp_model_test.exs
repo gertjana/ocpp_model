@@ -32,4 +32,9 @@ defmodule OcppModelTest do
     assert error == OcppModel.to_map(error)
   end
 
+  test "that empty values are not skipped when skip_empty is set to false" do
+    st = %TestStruct{foo: "Foo"}
+    map = OcppModel.to_map!(st, false)
+    assert %{foo: "Foo", bar: nil} == map
+  end
 end

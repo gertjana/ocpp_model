@@ -20,13 +20,13 @@ defmodule OcppModel do
 
   @spec to_map!(struct()) :: map()
   @doc """
-    Converts a struct into a map including nested structs
+    Converts a struct into a map including any nested structs
   """
-  def to_map!(st) when is_struct(st) do
+  def to_map!(st, filter_empty \\ true) when is_struct(st) do
     struct_to_map = fn({k, v}, acc) ->
       cond do
         is_struct(v) -> Map.put_new(acc, k, to_map!(v))
-        is_nil(v) -> acc
+        is_nil(v) && filter_empty -> acc
         true -> Map.put_new(acc, k, v)
       end
     end
