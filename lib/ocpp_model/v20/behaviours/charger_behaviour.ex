@@ -5,14 +5,14 @@ defmodule OcppModel.V20.Behaviours.Charger do
 
   alias OcppModel.V20.Messages, as: M
 
-  @callback change_availability(req :: ChangeAvailabilityRequest)
-              :: ChangeAvailabilityResponse | {:error, :change_availability, String.t()}
+  @callback change_availability(req :: %M.ChangeAvailabilityRequest{})
+              :: {:ok, %M.ChangeAvailabilityResponse{}} | {:error, :change_availability, String.t()}
 
-  @callback data_transfer(req :: M.DataTransferRequest)
-              :: {:ok, M.DataTransferResponse} | {:error, :data_transfer, String.t()}
+  @callback data_transfer(req :: %M.DataTransferRequest{})
+              :: {:ok, %M.DataTransferResponse{}} | {:error, :data_transfer, String.t()}
 
-  @callback unlock_connector(req :: UnlockConnectorRequest)
-              :: UnlockConnectorResponse | {:error, :unlock_connector, String.t()}
+  @callback unlock_connector(req :: %M.UnlockConnectorRequest{})
+              :: {:ok, %M.UnlockConnectorResponse{}} | {:error, :unlock_connector, String.t()}
 
   @spec handle(atom(), String.t(), map()) :: {:ok, map()} | {:error, atom(), String.t()}
   @doc """

@@ -6,23 +6,23 @@ defmodule OcppModel.V20.Behaviours.ChargeSystem do
   """
   alias OcppModel.V20.Messages, as: M
 
-  @callback authorize(req :: M.AuthorizeRequest)
-              :: {:ok, M.AuthorizeResponse}| {:error, :authorize, String.t()}
+  @callback authorize(req :: %M.AuthorizeRequest{})
+              :: {:ok, %M.AuthorizeResponse{}}| {:error, :authorize, String.t()}
 
-  @callback boot_notification(req :: M.BootNotificationRequest)
-              :: {:ok, M.BootNotificationResponse} | {:error, :boot_notification, String.t()}
+  @callback boot_notification(req :: %M.BootNotificationRequest{})
+              :: {:ok, %M.BootNotificationResponse{}} | {:error, :boot_notification, String.t()}
 
-  @callback data_transfer(req :: M.DataTransferRequest)
-              :: {:ok, M.DataTransferResponse} | {:error, :data_transfer, String.t()}
+  @callback data_transfer(req :: %M.DataTransferRequest{})
+              :: {:ok, %M.DataTransferResponse{}} | {:error, :data_transfer, String.t()}
 
-  @callback heartbeat(req :: M.HeartBeatRequest)
-              :: {:ok, M.HeartbeatResponse} | {:error, :heartbeat, String.t()}
+  @callback heartbeat(req :: %M.HeartbeatRequest{})
+              :: {:ok, %M.HeartbeatResponse{}} | {:error, :heartbeat, String.t()}
 
-  @callback status_notification(req :: M.StatusNotificationRequest)
-              :: {:ok, M.StatusNotificationResponse} | {:error, :status_notification, String.t()}
+  @callback status_notification(req :: %M.StatusNotificationRequest{})
+              :: {:ok, %M.StatusNotificationResponse{}} | {:error, :status_notification, String.t()}
 
-  @callback transaction_event(req :: M.TransactionEventRequest)
-              :: {:ok, M.TransactionEventResponse} | {:error, :transaction_event, String.t()}
+  @callback transaction_event(req :: %M.TransactionEventRequest{})
+              :: {:ok, %M.TransactionEventResponse{}} | {:error, :transaction_event, String.t()}
 
   @spec handle(atom(), String.t(), map()) :: {:ok, map()} | {:error, atom(), String.t()}
   @doc """
