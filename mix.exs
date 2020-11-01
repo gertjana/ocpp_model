@@ -1,14 +1,15 @@
 defmodule OcppModel.MixProject do
   use Mix.Project
 
-  @version "0.1.1"
+  @version "0.1.2"
+  @elixir_version "~> 1.10"
 
   def project do
     [
       app: :ocpp_model,
       description: "Contains all you need to implement a OCPP Charger or ChargeSystem",
       version: @version,
-      elixir: "~> 1.10",
+      elixir: @elixir_version,
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       aliases: aliases(),
