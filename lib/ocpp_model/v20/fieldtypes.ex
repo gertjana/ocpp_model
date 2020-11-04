@@ -57,15 +57,15 @@ defmodule OcppModel.V20.FieldTypes do
 
   end
 
-  # defmodule ModemType do
-  #   @moduledoc false
-  #   use TypedStruct
+  defmodule ModemType do
+    @moduledoc false
+    use TypedStruct
 
-  #   typedstruct do
-  #     field :iccid, String.t() # 0..20
-  #     field :imsi, String.t() # 0..20
-  #   end
-  # end
+    typedstruct do
+      field :iccid, String.t() # 0..20
+      field :imsi, String.t() # 0..20
+    end
+  end
 
   defmodule MeterValueType do
     @moduledoc false

@@ -2,7 +2,7 @@ defmodule OcppModel.MixProject do
   use Mix.Project
 
   @version "0.1.2"
-  @elixir_version "~> 1.10"
+  @elixir_version "~> 1.11.2"
 
   def project do
     [
@@ -34,6 +34,7 @@ defmodule OcppModel.MixProject do
       {:ex_doc, "~> 0.21", only: :dev, runtime: false},
       {:credo, "~> 1.5.0-rc-2", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
+      {:stream_data, "~> 0.4.3", only: :test}
     ]
   end
 
