@@ -149,7 +149,10 @@ defmodule OcppModel.V20.Messages do
     use TypedStruct
 
     typedstruct do
-      #all fields optional, left out for now
+      field :totalCost, float()
+      field :chargingPriority, integer()
+      field :idTokenInfo, FT.IdTokenInfoType.t()
+      field :updatedPersonalMessage, FT.MessageContentType.t()
     end
   end
 

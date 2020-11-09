@@ -27,6 +27,7 @@ defmodule OcppModel.V20.EnumTypes do
                                             "Frequency", "Power.Active.Export", "Power.Active.Import", "Power.Factor",
                                             "Power.Offered", "Power.Reactive.Export", "Power.Reactive.Import", "SoC",
                                             "Voltage"],
+    messageFormatEnumType:              ["ASCII", "HTML", "URI", "UTF8"],
     operationalStatusEnumType:          ["Inoperative", "Operative"],
     phaseEnumType:                      ["L1", "L2", "L3", "N", "L1-N", "L2-N", "L3-N", "L1-L2", "L2-L3", "L3-L1"],
     readingContextEnumType:             ["Interruption.Begin", "Interruption.End ", "Other ", "Sample.Clock ",

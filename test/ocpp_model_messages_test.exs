@@ -1,4 +1,9 @@
 defmodule OcppModelMessagesTest do
+  @moduledoc """
+    Property based testing for the OCPP Message Structs, for now just checks if the correct structs are generated,
+    in the future they will be used to fire off these messages to both the charger and the backend
+
+  """
   use ExUnit.Case
   use ExUnitProperties
 
@@ -87,27 +92,178 @@ defmodule OcppModelMessagesTest do
     end
   end
 
+  defp status_notification_request do
+    gen all gen_datetime <- date_time(),
+            gen_con_status <- string_of_enum(:connectorStatusEnumType),
+            gen_evse_id <- SD.integer(0..10),
+            gen_conn_id <- SD.integer(0..20) do
+      %M.StatusNotificationRequest{
+        timestamp: gen_datetime,
+        connectorStatus: gen_con_status,
+        evseId: gen_evse_id,
+        connectorId: gen_conn_id
+      }
+    end
+  end
+
+  defp status_notification_response do
+    gen all _ <- nil do
+      %M.StatusNotificationResponse{}
+    end
+  end
+
+  defp additional_info_type do
+    gen all gen_add_info <- string_of_len(:alphanumeric, 36),
+            gen_type <- string_of_len(:alphanumeric, 50) do
+      %FT.AdditionalInfoType{
+        additionalIdToken: gen_add_info,
+        type: gen_type
+      }
+    end
+  end
+
+  defp transactionevent_request do
+    gen all gen_event_type <- string_of_enum(:transactionEventEnumType),
+            gen_datetime <- date_time(),
+            gen_trigger_reason <- string_of_enum(:triggerReasonEnumType),
+            gen_seq_no <- SD.integer(),
+            gen_transaction_id <- string_of_len(:alphanumeric, 36),
+            gen_charging_state <- string_of_enum(:chargingStateEnumType),
+            gen_time_spent_charging <- SD.integer(),
+            gen_stopped_reason <- string_of_enum(:reasonEnumType),
+            gen_remote_start_id <- SD.integer(),
+            gen_id_token <- string_of_len(:alphanumeric, 36),
+            gen_type <- string_of_enum(:idTokenEnumType),
+            gen_additionalinfo <- list_of(additional_info_type()),
+            gen_id <- SD.integer(),
+            gen_conn_id <- SD.integer(),
+            gen_value <- SD.float(),
+            gen_context <- string_of_enum(:readingContextEnumType),
+            gen_measurand <- string_of_enum(:measurerandEnumType),
+            gen_phase <- string_of_enum(:phaseEnumType),
+            gen_location <- string_of_enum(:locationEnumType),
+            gen_signedmeterdata <- string_of_len(:alphanumeric, 2500),
+            gen_signingmethod <- string_of_len(:alphanumeric, 50),
+            gen_encodingmethod <- string_of_len(:alphanumeric, 50),
+            gen_publickey <- string_of_len(:alphanumeric, 2500),
+            gen_unit <- string_of_len(:alphanumeric, 20),
+            gen_multiplier <- SD.integer() do
+      %M.TransactionEventRequest{
+        eventType: gen_event_type,
+        timestamp: gen_datetime,
+        triggerReason: gen_trigger_reason,
+        seqNo: gen_seq_no,
+        transactionInfo: %FT.TransactionType{
+          transactionId: gen_transaction_id,
+          chargingState: gen_charging_state,
+          timeSpentCharging: gen_time_spent_charging,
+          stoppedReason: gen_stopped_reason,
+          remoteStartId: gen_remote_start_id
+        },
+        idToken: %FT.IdTokenType{
+          idToken: gen_id_token,
+          type: gen_type,
+          additionalInfo: gen_additionalinfo
+        },
+        evse: %FT.EvseType{
+          id: gen_id,
+          connector_id: gen_conn_id
+        },
+        meterValue: %FT.MeterValueType{
+          timestamp: gen_datetime,
+          sampledValue: %FT.SampledValueType{
+            value: gen_value,
+            context: gen_context,
+            measurand: gen_measurand,
+            phase: gen_phase,
+            location: gen_location,
+            signedMeterValue: %FT.SignedMeterValueType{
+              signedMeterData: gen_signedmeterdata,
+              signingMethod: gen_signingmethod,
+              encodingMethod: gen_encodingmethod,
+              publicKey: gen_publickey
+            },
+            unitOfMeasure: %FT.UnitOfMeasureType{
+              unit: gen_unit,
+              multiplier: gen_multiplier
+            }
+          }
+        }
+      }
+    end
+  end
+
+  defp transactionevent_response do
+    gen all gen_total_cost <- SD.float(),
+            gen_charging_prio <- SD.integer(-9..9),
+            gen_status <- string_of_enum(:authorizationStatusEnumType),
+            gen_format <- string_of_enum(:messageFormatEnumType),
+            gen_language <- string_of_len(:alphanumeric, 8),
+            gen_content <- string_of_len(:alphanumeric, 512) do
+      %M.TransactionEventResponse{
+        totalCost: gen_total_cost,
+        chargingPriority: gen_total_cost,
+        idTokenInfo: %FT.IdTokenInfoType{
+          status: gen_status
+        },
+        updatedPersonalMessage: %FT.MessageContentType{
+          format: gen_format,
+          language: gen_language,
+          content: gen_content
+        }
+      }
+    end
+  end
+
+  # property tests
+
   property :authorize_request do
-    check all gen_auth_req <- authorize_request(), do: assert %M.AuthorizeRequest{} = gen_auth_req
+    check all gen_auth_req <- authorize_request(),
+      do: assert %M.AuthorizeRequest{} = gen_auth_req
   end
 
   property :authorize_response do
-    check all gen_auth_res <- authorize_response(), do: assert %M.AuthorizeResponse{} = gen_auth_res
+    check all gen_auth_res <- authorize_response(),
+      do: assert %M.AuthorizeResponse{} = gen_auth_res
   end
 
   property :boot_notification_request do
-    check all gen_boot_req <- bootnotification_request(), do: assert %M.BootNotificationRequest{} = gen_boot_req
+    check all gen_boot_req <- bootnotification_request(),
+      do: assert %M.BootNotificationRequest{} = gen_boot_req
   end
 
   property :boot_notification_response do
-    check all gen_boot_res <- bootnotification_response(), do: assert %M.BootNotificationResponse{} = gen_boot_res
+    check all gen_boot_res <- bootnotification_response(),
+      do: assert %M.BootNotificationResponse{} = gen_boot_res
   end
 
   property :heartbeat_request do
-    check all gen_hb_req <- heartbeat_request(), do: assert %M.HeartbeatRequest{} = gen_hb_req
+    check all gen_hb_req <- heartbeat_request(),
+      do: assert %M.HeartbeatRequest{} = gen_hb_req
   end
 
   property :heartbeat_response do
-    check all gen_hb_res <- heartbeat_response(), do: assert %M.HeartbeatResponse{} = gen_hb_res
+    check all gen_hb_res <- heartbeat_response(),
+      do: assert %M.HeartbeatResponse{} = gen_hb_res
+  end
+
+  property :status_notification_request do
+    check all gen_st_not_req <- status_notification_request(),
+      do: assert %M.StatusNotificationRequest{} = gen_st_not_req
+  end
+
+  property :status_notification_response do
+    check all gen_st_not_res <- status_notification_response(),
+      do: assert %M.StatusNotificationResponse{} = gen_st_not_res
+  end
+
+  property :transaction_event_request do
+    check all gen_trans_event_req <- transactionevent_request(),
+      do: assert %M.TransactionEventRequest{} = gen_trans_event_req
+  end
+
+  property :transaction_event_response do
+    check all gen_trans_event_res <- transactionevent_response(),
+      do: assert %M.TransactionEventResponse{} = gen_trans_event_res
   end
 end

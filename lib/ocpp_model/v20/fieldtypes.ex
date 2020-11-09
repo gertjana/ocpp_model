@@ -57,16 +57,16 @@ defmodule OcppModel.V20.FieldTypes do
 
   end
 
-  defmodule ModemType do
+  defmodule MessageContentType do
     @moduledoc false
     use TypedStruct
 
     typedstruct do
-      field :iccid, String.t() # 0..20
-      field :imsi, String.t() # 0..20
+      field :format, String.t(), enforce: true # MessageFormatEnumtype
+      field :language, String.t() # 0..8
+      field :content, String.t() # 0..512
     end
   end
-
   defmodule MeterValueType do
     @moduledoc false
     use TypedStruct
@@ -74,6 +74,16 @@ defmodule OcppModel.V20.FieldTypes do
     typedstruct do
       field :timestamp, String.t(), enforce: true #dateTime
       field :sampledValue, SampledValueType.t(), enforce: true
+    end
+  end
+
+  defmodule ModemType do
+    @moduledoc false
+    use TypedStruct
+
+    typedstruct do
+      field :iccid, String.t() # 0..20
+      field :imsi, String.t() # 0..20
     end
   end
 
