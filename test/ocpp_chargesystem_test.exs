@@ -47,6 +47,11 @@ defmodule OcppModelChargeSystemTest do
     end
 
     @impl B.ChargeSystem
+    def meter_values(_req) do
+      {:ok, %M.MeterValuesResponse{}}
+    end
+
+    @impl B.ChargeSystem
     def status_notification(_req) do
       {:ok, %M.StatusNotificationResponse{}}
     end
@@ -100,6 +105,24 @@ defmodule OcppModelChargeSystemTest do
                     }
                   }
                 }
+  @meter_value_request %{
+                          evseId: 0,
+                          meterValue: %FT.MeterValueType{
+                            timestamp: DateTime.now!("Etc/UTC") |> DateTime.to_iso8601(),
+                            sampledValue: %FT.SampledValueType{value: 12.34,
+                              signedMeterValue: %FT.SignedMeterValueType{
+                                signedMeterData: "blabla",
+                                signingMethod: "SHA256",
+                                encodingMethod: "GZ",
+                                publicKey: "something public something"
+                              },
+                              unitOfMeasure: %FT.UnitOfMeasureType{
+                                unit: "kWh",
+                                multiplier: 0
+                              }
+                            }
+                          }
+                        }
 
   test "MyTestChargeSystem.handle should give a CallResult response when a correct Authorize Call message is given" do
     message = [2, "42", "Authorize", @auth_request]
@@ -119,6 +142,11 @@ defmodule OcppModelChargeSystemTest do
   test "MyTestChargeSystem.handle should give a CallResult response when a correct Heartbeat Call message is given" do
     message = [2, "42", "Heartbeat", %{}]
     assert [3, "42", %{currentTime: _}] = MyTestChargeSystem.handle(message)
+  end
+
+  test "MyTestChargeSystem.handle should give a CallResult response when a correct MeterValues Call message is given" do
+    message = [2, "42", "MeterValues",  @meter_value_request]
+    assert [3, "42", %{}] = MyTestChargeSystem.handle(message)
   end
 
   test "MyTestChargeSystem.handle should give a CallResult response when a correct StatusNotification Call message is given" do
@@ -162,6 +190,12 @@ defmodule OcppModelChargeSystemTest do
     request = %M.HeartbeatRequest{}
     {:ok, response} = MyTestChargeSystem.heartbeat(request)
     assert %M.HeartbeatResponse{} = response
+  end
+
+  test "MyMyTestChargerSystem.meter_values request should return a proper response" do
+    request = @meter_value_request
+    {:ok, response} = MyTestChargeSystem.meter_values(request)
+    assert %M.MeterValuesResponse{} = response
   end
 
   test "MyTestChargerSystem.transaction_event request should return a proper response" do
