@@ -14,7 +14,7 @@ defmodule OcppModel.V20.EnumTypes do
     connectorStatusEnumType:            ["Available", "Occupied", "Reserved", "Faulted"],
     dataTransferStatusEnum:             ["Accepted", "Rejected", "UnknownMessageId", "UnknownVendorId"],
     hashAlgorithmEnumType:              ["SHA256", "SHA384", "SHA512"],
-    idTokenEnumType:                    ["Central", "eMAID", "ISO14443", "ISO15693", "KeyCode", "Local ",
+    idTokenEnumType:                    ["Central", "eMAID", "ISO14443", "ISO15693", "KeyCode", "Local",
                                             "MacAddress ", "NoAuthorization"],
     locationEnumType:                   ["Body", "Cable", "EV", "Inlet", "Outlet"],
     measurerandEnumType:                ["Current.Export", "Current.Import", "Current.Offered",

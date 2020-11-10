@@ -202,7 +202,7 @@ defmodule OcppModelMessagesTest do
             gen_content <- string_of_len(:alphanumeric, 512) do
       %M.TransactionEventResponse{
         totalCost: gen_total_cost,
-        chargingPriority: gen_total_cost,
+        chargingPriority: gen_charging_prio,
         idTokenInfo: %FT.IdTokenInfoType{
           status: gen_status
         },
