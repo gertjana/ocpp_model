@@ -103,7 +103,25 @@ defmodule OcppModel.V20.Messages do
     use TypedStruct
 
     typedstruct do
-      field :currentTime, String.t(), enforce: true, default: ""
+      field :currentTime, String.t(), enforce: true
+    end
+  end
+
+  defmodule MeterValuesRequest do
+    @moduledoc false
+    use TypedStruct
+
+    typedstruct do
+      field :evseId, integer(), enforce: true
+      field :meterValue, FT.MeterValueType.t(), enforce: true
+    end
+  end
+
+  defmodule MeterValuesResponse do
+    @moduledoc false
+    use TypedStruct
+
+    typedstruct do
     end
   end
 

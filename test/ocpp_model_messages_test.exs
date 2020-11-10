@@ -92,6 +92,22 @@ defmodule OcppModelMessagesTest do
     end
   end
 
+  defp meter_values_request do
+    gen all gen_evse_id <- integer(),
+            gen_meter_value_type <- meter_value_type() do
+      %M.MeterValuesRequest{
+        evseId: gen_evse_id,
+        meterValue: gen_meter_value_type
+      }
+    end
+  end
+
+  defp meter_values_response do
+    gen all _ <- nil do
+      %M.MeterValuesResponse{}
+    end
+  end
+
   defp status_notification_request do
     gen all gen_datetime <- date_time(),
             gen_con_status <- string_of_enum(:connectorStatusEnumType),
@@ -122,6 +138,42 @@ defmodule OcppModelMessagesTest do
     end
   end
 
+  defp meter_value_type do
+    gen all gen_datetime <- date_time(),
+            gen_value <- SD.float(),
+            gen_context <- string_of_enum(:readingContextEnumType),
+            gen_measurand <- string_of_enum(:measurerandEnumType),
+            gen_phase <- string_of_enum(:phaseEnumType),
+            gen_location <- string_of_enum(:locationEnumType),
+            gen_signedmeterdata <- string_of_len(:alphanumeric, 2500),
+            gen_signingmethod <- string_of_len(:alphanumeric, 50),
+            gen_encodingmethod <- string_of_len(:alphanumeric, 50),
+            gen_publickey <- string_of_len(:alphanumeric, 2500),
+            gen_unit <- string_of_len(:alphanumeric, 20),
+            gen_multiplier <- SD.integer() do
+      %FT.MeterValueType{
+        timestamp: gen_datetime,
+        sampledValue: %FT.SampledValueType{
+          value: gen_value,
+          context: gen_context,
+          measurand: gen_measurand,
+          phase: gen_phase,
+          location: gen_location,
+          signedMeterValue: %FT.SignedMeterValueType{
+            signedMeterData: gen_signedmeterdata,
+            signingMethod: gen_signingmethod,
+            encodingMethod: gen_encodingmethod,
+            publicKey: gen_publickey
+          },
+          unitOfMeasure: %FT.UnitOfMeasureType{
+            unit: gen_unit,
+            multiplier: gen_multiplier
+          }
+        }
+      }
+    end
+  end
+
   defp transactionevent_request do
     gen all gen_event_type <- string_of_enum(:transactionEventEnumType),
             gen_datetime <- date_time(),
@@ -137,17 +189,7 @@ defmodule OcppModelMessagesTest do
             gen_additionalinfo <- list_of(additional_info_type()),
             gen_id <- SD.integer(),
             gen_conn_id <- SD.integer(),
-            gen_value <- SD.float(),
-            gen_context <- string_of_enum(:readingContextEnumType),
-            gen_measurand <- string_of_enum(:measurerandEnumType),
-            gen_phase <- string_of_enum(:phaseEnumType),
-            gen_location <- string_of_enum(:locationEnumType),
-            gen_signedmeterdata <- string_of_len(:alphanumeric, 2500),
-            gen_signingmethod <- string_of_len(:alphanumeric, 50),
-            gen_encodingmethod <- string_of_len(:alphanumeric, 50),
-            gen_publickey <- string_of_len(:alphanumeric, 2500),
-            gen_unit <- string_of_len(:alphanumeric, 20),
-            gen_multiplier <- SD.integer() do
+            gen_meter_value_type <- meter_value_type() do
       %M.TransactionEventRequest{
         eventType: gen_event_type,
         timestamp: gen_datetime,
@@ -169,26 +211,7 @@ defmodule OcppModelMessagesTest do
           id: gen_id,
           connector_id: gen_conn_id
         },
-        meterValue: %FT.MeterValueType{
-          timestamp: gen_datetime,
-          sampledValue: %FT.SampledValueType{
-            value: gen_value,
-            context: gen_context,
-            measurand: gen_measurand,
-            phase: gen_phase,
-            location: gen_location,
-            signedMeterValue: %FT.SignedMeterValueType{
-              signedMeterData: gen_signedmeterdata,
-              signingMethod: gen_signingmethod,
-              encodingMethod: gen_encodingmethod,
-              publicKey: gen_publickey
-            },
-            unitOfMeasure: %FT.UnitOfMeasureType{
-              unit: gen_unit,
-              multiplier: gen_multiplier
-            }
-          }
-        }
+        meterValue: gen_meter_value_type
       }
     end
   end
@@ -245,6 +268,16 @@ defmodule OcppModelMessagesTest do
   property :heartbeat_response do
     check all gen_hb_res <- heartbeat_response(),
       do: assert %M.HeartbeatResponse{} = gen_hb_res
+  end
+
+  property :meter_values_request do
+    check all gen_mv_req <- meter_values_request(),
+      do: assert %M.MeterValuesRequest{} = gen_mv_req
+  end
+
+  property :meter_values_response do
+    check all gen_mv_res <- meter_values_response(),
+      do: assert %M.MeterValuesResponse{} = gen_mv_res
   end
 
   property :status_notification_request do

@@ -18,6 +18,9 @@ defmodule OcppModel.V20.Behaviours.ChargeSystem do
   @callback heartbeat(req :: %M.HeartbeatRequest{})
               :: {:ok, %M.HeartbeatResponse{}} | {:error, :heartbeat, String.t()}
 
+  @callback meter_values(req :: %M.MeterValuesRequest{})
+              :: {:ok, %M.MeterValuesResponse{}} | {:error, :meter_values, String.t()}
+
   @callback status_notification(req :: %M.StatusNotificationRequest{})
               :: {:ok, %M.StatusNotificationResponse{}} | {:error, :status_notification, String.t()}
 
@@ -42,6 +45,10 @@ defmodule OcppModel.V20.Behaviours.ChargeSystem do
 
   def handle(caller, action, payload) when action == "Heartbeat" do
     payload |> OcppModel.to_struct(M.HeartbeatRequest) |> caller.heartbeat |> OcppModel.to_map()
+  end
+
+  def handle(caller, action, payload) when action == "MeterValues" do
+    payload |> OcppModel.to_struct(M.MeterValuesRequest) |> caller.meter_values |> OcppModel.to_map()
   end
 
   def handle(caller, action, payload) when action == "StatusNotification" do
