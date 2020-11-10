@@ -1,7 +1,7 @@
 defmodule OcppModel.MixProject do
   use Mix.Project
 
-  @version "0.1.2"
+  @version "0.1.3"
   @elixir_version "~> 1.11.2"
 
   def project do
