@@ -271,12 +271,12 @@ defmodule OcppModelMessagesTest do
   end
 
   property :meter_values_request do
-    check all gen_mv_req <- meter_values_request,
+    check all gen_mv_req <- meter_values_request(),
       do: assert %M.MeterValuesRequest{} = gen_mv_req
   end
 
   property :meter_values_response do
-    check all gen_mv_res <- meter_values_response,
+    check all gen_mv_res <- meter_values_response(),
       do: assert %M.MeterValuesResponse{} = gen_mv_res
   end
 
