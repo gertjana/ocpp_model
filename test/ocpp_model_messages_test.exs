@@ -30,7 +30,7 @@ defmodule OcppModelMessagesTest do
   end
 
   defp authorize_request do
-    gen all id_token <- string_of_len(:ascii, 36),
+    gen all id_token <- string_of_len(:alphanumeric, 36),
             itet <- string_of_enum(:idTokenEnumType) do
       %M.AuthorizeRequest{idToken: %FT.IdTokenType{idToken: id_token, type: itet}}
     end
@@ -44,12 +44,12 @@ defmodule OcppModelMessagesTest do
 
   defp bootnotification_request do
     gen all gen_reason <- string_of_enum(:bootReasonEnumType),
-            gen_serial <- string_of_len(:ascii, 25),
-            gen_model <- string_of_len(:ascii, 20),
-            gen_vendor <- string_of_len(:ascii, 50),
-            gen_firmware <- string_of_len(:ascii, 50),
-            gen_iccid <- string_of_len(:ascii, 20),
-            gen_imsi <- string_of_len(:ascii, 20) do
+            gen_serial <- string_of_len(:alphanumeric, 25),
+            gen_model <- string_of_len(:alphanumeric, 20),
+            gen_vendor <- string_of_len(:alphanumeric, 50),
+            gen_firmware <- string_of_len(:alphanumeric, 50),
+            gen_iccid <- string_of_len(:alphanumeric, 20),
+            gen_imsi <- string_of_len(:alphanumeric, 20) do
       %M.BootNotificationRequest{
         reason: gen_reason,
         chargingStation: %FT.ChargingStationType{
