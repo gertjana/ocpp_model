@@ -15,16 +15,23 @@ It will be populated on a 'need to have' basis starting with basic charger funct
 
 `C=Charger, CS=ChargeSystem, arrow  Message Direction`
 
+### OCPP 1.2/1.5
+ - will not implement
+
+### OCPP 1.6
+ - might implement
+
 ### OCPP 2.0.1
 
- - `C->CS AuthorizeRequest/Response`
- - `C->CS BootNoficationRequest/Response`
- - `C<-CS ChangeAvailabilityRequest/Response`
- - `C<>CS DataTransferRequest/Response`
- - `C->CS HeartbeatRequest/Response`
- - `C->CS StatusNotificationRequest/Response`
- - `C->CS TransationEventRequest/Response`
- - `C<-CS UnlockConnectorRequest/Response`
+ - `C -> CS AuthorizeRequest/Response`
+ - `C -> CS BootNoficationRequest/Response`
+ - `C <- CS ChangeAvailabilityRequest/Response`
+ - `C <> CS DataTransferRequest/Response`
+ - `C -> CS HeartbeatRequest/Response`
+ - `C -> CS MeterValueRequest/Response`
+ - `C -> CS StatusNotificationRequest/Response`
+ - `C -> CS TransationEventRequest/Response`
+ - `C <- CS UnlockConnectorRequest/Response`
 
 
 ## Installation
