@@ -16,6 +16,6 @@ mix:test:
     - MIX_ENV=test mix test
 
 mix:build:
-  stage: buidl
+  stage: build
   script:
    - MIV_ENV=prod mix all
