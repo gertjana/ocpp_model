@@ -15,12 +15,6 @@ It will be populated on a 'need to have' basis starting with basic charger funct
 
 `C=Charger, CS=ChargeSystem, arrow  Message Direction`
 
-### OCPP 1.2/1.5
- - will not implement
-
-### OCPP 1.6
- - might implement
-
 ### OCPP 2.0.1
 
  - `C -> CS AuthorizeRequest/Response`
@@ -33,13 +27,18 @@ It will be populated on a 'need to have' basis starting with basic charger funct
  - `C -> CS TransationEventRequest/Response`
  - `C <- CS UnlockConnectorRequest/Response`
 
+### OCPP 1.6
+ - might implement
+
+### OCPP 1.2, 1.5
+ - will not implement
 
 ## Installation
 
 ```elixir
 def deps do
   [
-    {:ocpp_model, "~> 0.1.0"}
+    {:ocpp_model, "~> 0.1.2"}
   ]
 end
 ```
@@ -164,4 +163,3 @@ or an IoT solution as long as it supports bi-directional communication
     def current_time, do: DateTime.now!("Etc/UTC") |> DateTime.to_iso8601()
   end
 ```
-
