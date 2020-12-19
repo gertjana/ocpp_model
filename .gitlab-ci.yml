@@ -1,7 +1,6 @@
 image: elixir:latest
 
 stages:
-  - build
   - test
   - publish
 
@@ -13,9 +12,5 @@ before_script:
 mix:test:
   stage: test
   script:
-    - MIX_ENV=test mix test
+    - MIX_ENV=test mix all
 
-mix:build:
-  stage: build
-  script:
-   - MIV_ENV=prod mix all
