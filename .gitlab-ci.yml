@@ -19,7 +19,7 @@ mix:compile:
 mix:test:
   stage: test
   script:
-    - MIX_ENV=test mix coveralls --trace
+    - MIX_ENV=test mix coveralls coveralls.json --trace
   after_script:
     - bash <(curl -s https://codecov.io/bash)
 
