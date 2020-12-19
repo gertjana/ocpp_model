@@ -1,7 +1,9 @@
 image: elixir:latest
 
 stages:
+  - compile
   - test
+  - lint
   - publish
 
 before_script:
@@ -9,8 +11,20 @@ before_script:
   - mix local.hex --force
   - mix deps.get
 
+mix:compile:
+  stage: compile
+  script:
+    - MIX_ENV=prod mix compile --warnings-as-errors
+
 mix:test:
   stage: test
   script:
-    - MIX_ENV=test mix all
+    - MIX_ENV=test mix coveralls --trace
+  after_script:
+    - bash <(curl -s https://codecov.io/bash)
+
+mix:lint:
+  stage: lint
+  script:
+    - MIX_ENV=test mix credo --strict
 
