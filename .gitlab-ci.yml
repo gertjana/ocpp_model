@@ -1,4 +1,4 @@
-image: elixir:latest
+image: elixir:1.11.2
 
 stages:
   - build
@@ -37,7 +37,7 @@ lint:
     - mix credo --strict
 
 publish:
-  stage:publish
+  stage: publish
   script:
     - echo "hex publish ..."
 
