@@ -5,6 +5,9 @@ stages:
   - lint
   - publish
 
+variables:
+  MIX_ENV: test
+
 before_script:
   - mix local.rebar --force
   - mix local.hex --force
@@ -15,10 +18,10 @@ mix:test:
   script:
     - MIX_ENV=test mix coveralls.json --trace
   after_script:
-    - bash <(curl -s https://codecov.io/bash)
+    - bash <(curl -s https://codecov.io/bash -t ${CODECOV_TOKEN})
 
 mix:lint:
   stage: lint
   script:
-    - MIX_ENV=test mix credo --strict
+    - mix credo --strict
 
