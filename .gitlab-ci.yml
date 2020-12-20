@@ -36,3 +36,8 @@ lint:
   script:
     - mix credo --strict
 
+publish:
+  stage:publish
+  script:
+    - echo "hex publish ..."
+
