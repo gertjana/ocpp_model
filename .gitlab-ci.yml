@@ -14,6 +14,14 @@ cache:
     - _build
     - deps
 
+sast:
+  variables:
+    SAST_DEFAULT_ANALYZERS: sobelow
+  stage: test
+  include:
+    - template: Security/SAST.gitlab-ci.yml
+
+
 before_script:
   - mix local.rebar --force
   - mix local.hex --force
