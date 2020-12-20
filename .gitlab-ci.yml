@@ -5,22 +5,18 @@ stages:
   - test
   - publish
 
+include:
+  - template: Security/SAST.gitlab-ci.yml
+
 variables:
   MIX_ENV: test
+  SAST_DEFAULT_ANALYZERS: sobelow
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - _build
     - deps
-
-sast:
-  variables:
-    SAST_DEFAULT_ANALYZERS: sobelow
-  stage: test
-  include:
-    - template: Security/SAST.gitlab-ci.yml
-
 
 before_script:
   - mix local.rebar --force
