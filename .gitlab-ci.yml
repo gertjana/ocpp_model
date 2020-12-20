@@ -40,4 +40,3 @@ publish:
   stage: publish
   script:
     - echo "hex publish ..."
-
