@@ -1,27 +1,37 @@
 image: elixir:latest
 
 stages:
+  - build
   - test
-  - lint
   - publish
 
 variables:
   MIX_ENV: test
+
+cache:
+  paths:
+    - _build
+    - deps
 
 before_script:
   - mix local.rebar --force
   - mix local.hex --force
   - mix deps.get
 
-mix:test:
+compile:
+  stage: build
+  script:
+    - mix compile --warnings-as-errors
+
+test:
   stage: test
   script:
-    - MIX_ENV=test mix coveralls.json --trace
+    - mix coveralls.json --trace
   after_script:
-    - bash <(curl -s https://codecov.io/bash -t ${CODECOV_TOKEN})
+    - bash <(curl -s https://codecov.io/bash)
 
-mix:lint:
-  stage: lint
+lint:
+  stage: test
   script:
     - mix credo --strict
 
