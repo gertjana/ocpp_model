@@ -1,3 +1,7 @@
+# Note
+
+> This repository is no longer used, development continues in Gitlab: [https://gitlab.com/gertjana/ocpp_model](https://gitlab.com/gertjana/ocpp_model)
+
 # An Ocpp Model
 [![codecov](https://codecov.io/gh/gertjana/ocpp_model/branch/main/graph/badge.svg?token=nrXnKllzIA)](https://codecov.io/gh/gertjana/ocpp_model)
 [![Build Status](https://travis-ci.com/gertjana/ocpp_model.svg?branch=main)](https://travis-ci.com/gertjana/ocpp_model)
